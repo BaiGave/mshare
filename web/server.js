@@ -14,14 +14,53 @@ const WS_PORT = 3001;
 const CAMERA_WS_PORT = 3002;
 const MESH_WS_PORT = 3003;
 
-// JNA jar paths - match the version used by fabric-loader (5.17.0)
-const JNA_JARS = [
-    'C:\\Users\\Admin\\.gradle\\caches\\modules-2\\files-2.1\\net.java.dev.jna\\jna\\5.17.0\\33d12735bef894440780fce64f9758d420c7bae2\\jna-5.17.0.jar',
-    'C:\\Users\\Admin\\.gradle\\caches\\modules-2\\files-2.1\\net.java.dev.jna\\jna-platform\\5.17.0\\a4934c44d25a9d8c2ddf4203affd20330cb3426f\\jna-platform-5.17.0.jar'
-];
+// Base directory (mshare project root, relative to server.js)
+const PROJECT_ROOT = path.join(__dirname, '..');
 
 // Classes directory - extracted from the built JAR
-const CLASSES_DIR = 'd:\\blender-git\\template-mod-template-26.1.1\\build\\classes\\java\\main';
+const CLASSES_DIR = path.join(PROJECT_ROOT, 'build', 'classes', 'java', 'main');
+
+// JNA jar paths - match the version used in build.gradle (5.15.0)
+const JNA_JARS = [
+    path.join(os.homedir(), '.gradle', 'caches', 'modules-2', 'files-2.1',
+        'net.java.dev.jna', 'jna', '5.15.0',
+        '1ee1d80ff44f08280188f7c0e740d57207841ac', 'jna-5.15.0.jar'),
+    path.join(os.homedir(), '.gradle', 'caches', 'modules-2', 'files-2.1',
+        'net.java.dev.jna', 'jna-platform', '5.15.0',
+        '86b502cad57d45da172b5e3231c537b042e296ef', 'jna-platform-5.15.0.jar')
+];
+
+/**
+ * Find Java executable. Prefer Java 25 installed under user home,
+ * fall back to PATH lookup.
+ */
+/**
+ * Find Java 25+ executable. Searches common Windows install locations
+ * in order, falls back to PATH lookup.
+ */
+function findJava() {
+    const candidates = [
+        // IntelliJ / Gradle user install (most common for dev machines)
+        path.join(os.homedir(), '.jdks', 'jdk-25.0.2', 'bin', 'java.exe'),
+        // Gradle JVM selection
+        path.join(os.homedir(), '.gradle', 'jdks', 'jdk-25.0.2', 'windows-x86_64', 'jdk-25.0.2', 'bin', 'java.exe'),
+        // Oracle / standard Program Files
+        'C:\\Program Files\\Java\\jdk-25.0.2\\bin\\java.exe',
+        'C:\\Program Files\\Eclipse Adoptium\\jdk-25.0.2-hotspot\\bin\\java.exe',
+        'C:\\Program Files\\Amazon Corretto\\jdk25.0.2\\bin\\java.exe',
+        'C:\\Program Files\\Microsoft\\jdk-25.0.2\\bin\\java.exe',
+        'C:\\Program Files\\ Azul JDK\\jdk-25.0.2\\bin\\java.exe',
+        // 32-bit variants
+        'C:\\Program Files (x86)\\Java\\jdk-25.0.2\\bin\\java.exe',
+    ];
+    for (const javaHome of candidates) {
+        if (fs.existsSync(javaHome)) {
+            return javaHome;
+        }
+    }
+    // Fallback: use java from PATH
+    return 'java';
+}
 
 const mimeTypes = {
     '.html': 'text/html',
@@ -115,10 +154,7 @@ class SharedMemoryReader {
             this.process.kill();
         }
 
-        const javaExe = 'C:\\Program Files\\Java\\jdk-25.0.2\\bin\\java.exe';
-
-        const projectDir = 'd:\\blender-git\\template-mod-template-26.1.1';
-        const classes = path.join(projectDir, 'build', 'classes', 'java', 'main');
+        const javaExe = findJava();
 
         const existingJars = JNA_JARS.filter(f => fs.existsSync(f));
         let classpath = CLASSES_DIR;
@@ -280,9 +316,7 @@ class CameraDataReader {
             this.process.kill();
         }
 
-        const javaExe = 'C:\\Program Files\\Java\\jdk-25.0.2\\bin\\java.exe';
-        const projectDir = 'd:\\blender-git\\template-mod-template-26.1.1';
-        const classes = path.join(projectDir, 'build', 'classes', 'java', 'main');
+        const javaExe = findJava();
 
         const existingJars = JNA_JARS.filter(f => fs.existsSync(f));
         let classpath = CLASSES_DIR;
@@ -431,9 +465,7 @@ class MeshDataReader {
             this.process.kill();
         }
 
-        const javaExe = 'C:\\Program Files\\Java\\jdk-25.0.2\\bin\\java.exe';
-        const projectDir = 'd:\\blender-git\\template-mod-template-26.1.1';
-        const classes = path.join(projectDir, 'build', 'classes', 'java', 'main');
+        const javaExe = findJava();
 
         const existingJars = JNA_JARS.filter(f => fs.existsSync(f));
         let classpath = CLASSES_DIR;

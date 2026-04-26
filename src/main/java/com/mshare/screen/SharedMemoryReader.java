@@ -13,14 +13,49 @@ import java.util.Base64;
  * Standalone shared memory reader - no external dependencies.
  * Uses Windows API via JNA to read shared memory.
  * Continuously reads frames in a loop.
+ *
+ * Header layout (v2, 64 bytes total):
+ *   0  magic:        4 bytes - "MCSH" (0x4D435348)
+ *   4  version:       4 bytes - 2
+ *   8  screenWidth:   4 bytes - actual window framebuffer width
+ *  12  screenHeight:  4 bytes - actual window framebuffer height
+ *  16  width:         4 bytes - capture width (after downscale)
+ *  20  height:        4 bytes - capture height (after downscale)
+ *  24  format:        4 bytes - 1 (RGBA)
+ *  28  stride:        4 bytes - bytes per row
+ *  32  reserved:      4 bytes
+ *  36  timestamp:      8 bytes - nanoseconds
+ *  44  frameCount:     8 bytes
+ *  52  status:         4 bytes - 0=idle, 1=writing, 2=ready
+ *  56  reserved:       8 bytes
+ *  64  pixel data
+ *
+ * Resize support:
+ *   The writer allocates a fixed max-size buffer at init time and never closes
+ *   the shared memory on resize. This reader detects resize events by monitoring
+ *   screenWidth/screenHeight in the header and skips frames during transition.
  */
 public class SharedMemoryReader {
     private static final int FILE_MAP_ALL_ACCESS = 0xF001F;
     private static final String MAPPING_NAME = "Global\\MinecraftScreenCapture";
     private static final int HEADER_SIZE = 64;
     private static final int STATUS_READY = 2;
+    private static final int MAGIC = 0x4D435348;
+    private static final int VERSION = 2;
 
     private static final Kernel32 kernel32 = Native.load("kernel32", Kernel32.class);
+
+    // Header field offsets
+    private static final int OFF_MAGIC = 0;
+    private static final int OFF_VERSION = 4;
+    private static final int OFF_SCREEN_WIDTH = 8;
+    private static final int OFF_SCREEN_HEIGHT = 12;
+    private static final int OFF_WIDTH = 16;
+    private static final int OFF_HEIGHT = 20;
+    private static final int OFF_STRIDE = 28;
+    private static final int OFF_TIMESTAMP = 36;
+    private static final int OFF_FRAME_COUNT = 44;
+    private static final int OFF_STATUS = 52;
 
     public interface Kernel32 extends Library {
         Pointer OpenFileMappingW(int dwDesiredAccess, boolean bInheritHandle, String lpName);
@@ -32,11 +67,17 @@ public class SharedMemoryReader {
 
     public static void main(String[] args) {
         System.out.println("[Reader] Starting shared memory reader...");
-        
+
         int frameCount = 0;
         long lastFrameCount = -1;
         int errorCount = 0;
-        
+
+        // Track dimensions for resize detection
+        int lastScreenWidth = -1;
+        int lastScreenHeight = -1;
+        int lastWidth = -1;
+        int lastHeight = -1;
+
         while (errorCount < 10) {
             try {
                 // Open shared memory
@@ -47,7 +88,7 @@ public class SharedMemoryReader {
                     continue;
                 }
 
-                // Map the view
+                // Map the view - map the full max-size buffer
                 Pointer mappedView = kernel32.MapViewOfFile(fileMapping, FILE_MAP_ALL_ACCESS, 0, 0, 0);
                 if (mappedView == null || mappedView == Pointer.NULL) {
                     kernel32.CloseHandle(fileMapping);
@@ -58,17 +99,37 @@ public class SharedMemoryReader {
                 try {
                     while (true) {
                         // Read header
-                        // Layout: magic(0), width(8), height(12), format(16), stride(20),
-                        //         timestamp(24,8bytes), frameCount(32,8bytes), status(40)
-                        int magic = mappedView.getInt(0);
-                        int width = mappedView.getInt(8);
-                        int height = mappedView.getInt(12);
-                        int status = mappedView.getInt(40);
-                        long currentFrameCount = mappedView.getLong(32);
+                        int magic = mappedView.getInt(OFF_MAGIC);
+                        int version = mappedView.getInt(OFF_VERSION);
+                        int screenWidth = mappedView.getInt(OFF_SCREEN_WIDTH);
+                        int screenHeight = mappedView.getInt(OFF_SCREEN_HEIGHT);
+                        int width = mappedView.getInt(OFF_WIDTH);
+                        int height = mappedView.getInt(OFF_HEIGHT);
+                        int stride = mappedView.getInt(OFF_STRIDE);
+                        int status = mappedView.getInt(OFF_STATUS);
+                        long currentFrameCount = mappedView.getLong(OFF_FRAME_COUNT);
 
-                        if (magic != 0x4D435348) {
+                        if (magic != MAGIC) {
                             System.out.println("[Reader] Invalid magic: " + String.format("0x%08X", magic));
                             break;
+                        }
+
+                        if (version != VERSION) {
+                            System.out.println("[Reader] Unsupported version: " + version + " (expected " + VERSION + ")");
+                            break;
+                        }
+
+                        // Detect resize - if dimensions changed significantly, reset tracking
+                        boolean resized = (screenWidth != lastScreenWidth || screenHeight != lastScreenHeight
+                                || width != lastWidth || height != lastHeight);
+                        if (resized) {
+                            System.out.println("[Reader] Resize detected: screen=" + screenWidth + "x" + screenHeight
+                                    + ", capture=" + width + "x" + height);
+                            lastScreenWidth = screenWidth;
+                            lastScreenHeight = screenHeight;
+                            lastWidth = width;
+                            lastHeight = height;
+                            lastFrameCount = -1; // Reset frame tracking after resize
                         }
 
                         // Check if there's a new frame
@@ -76,15 +137,13 @@ public class SharedMemoryReader {
                             if (width > 0 && height > 0 && width <= 3840 && height <= 2160) {
                                 lastFrameCount = currentFrameCount;
 
-                                // Compute actual stride from shared memory header
                                 // Stride must equal width*4 (RGBA, no padding with GL_PACK_ALIGNMENT=1)
-                                int actualStride = mappedView.getInt(20);
                                 int expectedStride = width * 4;
-                                if (actualStride != expectedStride) {
-                                    System.out.println("[Reader] Stride mismatch: header=" + actualStride + " expected=" + expectedStride + ", skipping frame");
+                                if (stride != expectedStride) {
+                                    System.out.println("[Reader] Stride mismatch: header=" + stride + " expected=" + expectedStride + ", skipping frame");
                                     continue;
                                 }
-                                int pixelDataSize = height * actualStride;
+                                int pixelDataSize = height * stride;
 
                                 // Read pixel data from shared memory
                                 byte[] pixelData = new byte[pixelDataSize];
@@ -98,7 +157,7 @@ public class SharedMemoryReader {
                                     // Flip Y axis - OpenGL has origin at bottom-left
                                     int flippedY = height - 1 - y;
                                     for (int x = 0; x < width; x++) {
-                                        int srcIdx = flippedY * actualStride + x * 4;
+                                        int srcIdx = flippedY * stride + x * 4;
                                         // Memory order: BGRA
                                         int b = pixelData[srcIdx] & 0xFF;
                                         int g = pixelData[srcIdx + 1] & 0xFF;
@@ -135,7 +194,7 @@ public class SharedMemoryReader {
                                 System.out.println("[Reader] CHUNKS:" + chunkCount);
                                 System.out.println("[Reader] FRAME_END");
                                 System.out.flush();
-                                
+
                                 errorCount = 0; // Reset error count on successful frame
                             }
                         }
@@ -157,7 +216,7 @@ public class SharedMemoryReader {
                 }
             }
         }
-        
+
         System.out.println("[Reader] Exiting after " + errorCount + " errors");
     }
 }

@@ -5,22 +5,25 @@ package com.mshare.screen;
  * This header is mapped at the beginning of the Named Shared Memory file,
  * followed by the raw pixel data.
  *
- * Layout (64 bytes total):
+ * Layout (64 bytes total, v2):
  * - magic:        4 bytes  - Magic number "MCSH"
- * - version:      4 bytes  - Protocol version (1)
- * - width:        4 bytes  - Screen width in pixels
- * - height:       4 bytes  - Screen height in pixels
- * - format:       4 bytes  - Pixel format (0=RGB24, 1=RGBA32)
+ * - version:      4 bytes  - Protocol version (2)
+ * - screenWidth:  4 bytes  - Actual window framebuffer width
+ * - screenHeight: 4 bytes  - Actual window framebuffer height
+ * - width:        4 bytes  - Capture width (after downscale)
+ * - height:       4 bytes  - Capture height (after downscale)
+ * - format:       4 bytes  - Pixel format (1=RGBA32)
  * - stride:       4 bytes  - Bytes per row
- * - timestamp:    8 bytes  - Timestamp in nanoseconds (System.nanoTime())
- * - frameCount:   4 bytes  - Frame counter
+ * - reserved:     4 bytes  - Reserved
+ * - timestamp:    8 bytes  - Timestamp in nanoseconds
+ * - frameCount:  8 bytes  - Frame counter
  * - status:       4 bytes  - Status: 0=idle, 1=writing, 2=ready
- * - reserved:    24 bytes  - Reserved for future use
+ * - reserved:      8 bytes  - Reserved
  */
 public final class ScreenHeader {
     public static final int SIZE = 64;
     public static final int MAGIC = 0x4D435348; // "MCSH" in ASCII
-    public static final int VERSION = 1;
+    public static final int VERSION = 2;
 
     // Pixel formats
     public static final int FORMAT_RGB24 = 0;
@@ -37,9 +40,11 @@ public final class ScreenHeader {
         this.data = new byte[SIZE];
         setMagic(MAGIC);
         setVersion(VERSION);
+        setScreenWidth(0);
+        setScreenHeight(0);
         setWidth(0);
         setHeight(0);
-        setFormat(FORMAT_RGB24);
+        setFormat(FORMAT_RGBA32);
         setStride(0);
         setTimestamp(0L);
         setFrameCount(0L);
@@ -78,59 +83,76 @@ public final class ScreenHeader {
     }
 
     public int getWidth() {
-        return readInt(8);
-    }
-
-    public void setWidth(int width) {
-        writeInt(8, width);
-    }
-
-    public int getHeight() {
-        return readInt(12);
-    }
-
-    public void setHeight(int height) {
-        writeInt(12, height);
-    }
-
-    public int getFormat() {
         return readInt(16);
     }
 
-    public void setFormat(int format) {
-        writeInt(16, format);
+    public void setWidth(int width) {
+        writeInt(16, width);
     }
 
-    public int getStride() {
+    public int getHeight() {
         return readInt(20);
     }
 
+    public void setHeight(int height) {
+        writeInt(20, height);
+    }
+
+    public int getFormat() {
+        return readInt(24);
+    }
+
+    public void setFormat(int format) {
+        writeInt(24, format);
+    }
+
+    public int getStride() {
+        return readInt(28);
+    }
+
     public void setStride(int stride) {
-        writeInt(20, stride);
+        writeInt(28, stride);
     }
 
     public long getTimestamp() {
-        return readLong(24);
+        return readLong(36);
     }
 
     public void setTimestamp(long timestamp) {
-        writeLong(24, timestamp);
+        writeLong(36, timestamp);
     }
 
     public long getFrameCount() {
-        return readLong(32);
+        return readLong(44);
     }
 
     public void setFrameCount(long frameCount) {
-        writeLong(32, frameCount);
+        writeLong(44, frameCount);
     }
 
     public int getStatus() {
-        return readInt(40);
+        return readInt(52);
     }
 
     public void setStatus(int status) {
-        writeInt(40, status);
+        writeInt(52, status);
+    }
+
+    // V2 additions - screen dimensions (the actual window framebuffer size)
+    public int getScreenWidth() {
+        return readInt(8);
+    }
+
+    public void setScreenWidth(int width) {
+        writeInt(8, width);
+    }
+
+    public int getScreenHeight() {
+        return readInt(12);
+    }
+
+    public void setScreenHeight(int height) {
+        writeInt(12, height);
     }
 
     private int readInt(int offset) {
@@ -185,8 +207,8 @@ public final class ScreenHeader {
         return "ScreenHeader{" +
                 "valid=" + isValid() +
                 ", version=" + getVersion() +
-                ", width=" + getWidth() +
-                ", height=" + getHeight() +
+                ", screen=" + getScreenWidth() + "x" + getScreenHeight() +
+                ", capture=" + getWidth() + "x" + getHeight() +
                 ", format=" + getFormat() +
                 ", stride=" + getStride() +
                 ", timestamp=" + getTimestamp() +

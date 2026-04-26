@@ -20,24 +20,53 @@ import java.nio.ByteBuffer;
  * 
  * Layout (64 bytes header):
  *   0  magic:       4 bytes  - "MCSH" (0x4D435348)
- *   4  version:     4 bytes  - 1
- *   8  width:       4 bytes  - screen width
- *  12  height:      4 bytes  - screen height
- *  16  format:      4 bytes  - 1 (RGBA)
- *  20  stride:      4 bytes  - bytes per row (width*4)
- *  24  timestamp:   8 bytes  - nanoseconds
- *  32  frameCount:  8 bytes  - frame counter (long)
- *  40  status:      4 bytes  - 0=idle, 1=writing, 2=ready
- *  44  reserved:    20 bytes
+ *   4  version:     4 bytes  - 2
+ *   8  screenWidth: 4 bytes  - actual window framebuffer width
+ *  12  screenHeight:4 bytes  - actual window framebuffer height
+ *  16  width:       4 bytes  - capture width (after downscale)
+ *  20  height:      4 bytes  - capture height (after downscale)
+ *  24  format:      4 bytes  - 1 (RGBA)
+ *  28  stride:      4 bytes  - bytes per row (width*4)
+ *  32  reserved:    4 bytes  - reserved
+ *  36  timestamp:   8 bytes  - nanoseconds
+ *  44  frameCount:  8 bytes  - frame counter (long)
+ *  52  status:      4 bytes  - 0=idle, 1=writing, 2=ready
+ *  56  reserved:    8 bytes
  *  64  pixel data
+ *
+ * Resize safety:
+ *   Shared memory is allocated at a FIXED maximum size (MAX_WIDTH * MAX_HEIGHT * 4 + HEADER_SIZE)
+ *   at init time and is NEVER re-created during window resize. The header fields (width, height,
+ *   screenWidth, screenHeight, stride) are updated on every frame so clients can detect resize
+ *   events and reconnect if needed. The GPU buffer is the only resource that is re-created on resize.
  */
 public final class ScreenCapture {
     private static final Logger LOGGER = LoggerFactory.getLogger(ScreenCapture.class);
 
+    // Fixed max capture dimensions - used to size the shared memory buffer.
+    // A shared memory buffer of this size is allocated once at init and is NEVER
+    // re-created during window resize. This prevents crashes from dangling pointers.
+    private static final int MAX_WIDTH = 3840;
+    private static final int MAX_HEIGHT = 2160;
+    private static final int MAX_PIXEL_SIZE = MAX_WIDTH * MAX_HEIGHT * 4;
     private static final int HEADER_SIZE = 64;
+
     private static final int STATUS_IDLE = 0;
     private static final int STATUS_WRITING = 1;
     private static final int STATUS_READY = 2;
+
+    // Version 2 header offsets
+    private static final int OFF_MAGIC = 0;
+    private static final int OFF_VERSION = 4;
+    private static final int OFF_SCREEN_WIDTH = 8;
+    private static final int OFF_SCREEN_HEIGHT = 12;
+    private static final int OFF_WIDTH = 16;
+    private static final int OFF_HEIGHT = 20;
+    private static final int OFF_FORMAT = 24;
+    private static final int OFF_STRIDE = 28;
+    private static final int OFF_TIMESTAMP = 36;
+    private static final int OFF_FRAME_COUNT = 44;
+    private static final int OFF_STATUS = 52;
 
     private NamedSharedMemory sharedMemory;
     private ByteBuffer sharedBuffer;
@@ -48,9 +77,11 @@ public final class ScreenCapture {
     private int downscaleFactor = 1;
     private boolean initialized = false;
 
-    // Track current capture dimensions
-    private int currentWidth = 0;
-    private int currentHeight = 0;
+    // Current dimensions as last captured (for resize detection)
+    private int currentScreenWidth = 0;
+    private int currentScreenHeight = 0;
+    private int currentCaptureWidth = 0;
+    private int currentCaptureHeight = 0;
 
     // Cached GPU buffer for reading (recreated on resize)
     private GpuBuffer gpuBuffer;
@@ -76,6 +107,8 @@ public final class ScreenCapture {
 
     /**
      * Initialize shared memory.
+     * Allocates a FIXED-SIZE buffer (MAX_WIDTH * MAX_HEIGHT * 4 + HEADER_SIZE) once.
+     * This buffer is never re-created during window resize.
      */
     public boolean init() {
         if (initialized) {
@@ -97,25 +130,59 @@ public final class ScreenCapture {
                 return false;
             }
 
-            currentWidth = rtWidth / downscaleFactor;
-            currentHeight = rtHeight / downscaleFactor;
+            currentScreenWidth = rtWidth;
+            currentScreenHeight = rtHeight;
+            currentCaptureWidth = rtWidth / downscaleFactor;
+            currentCaptureHeight = rtHeight / downscaleFactor;
 
-            long size = (long) currentWidth * currentHeight * 4L + HEADER_SIZE + 4096;
+            // Allocate a FIXED-SIZE shared memory buffer large enough for max resolution.
+            // This is done ONCE at init and is NEVER re-created on window resize.
+            // The client can detect resize by comparing screenWidth/screenHeight in the header.
+            long size = (long) MAX_PIXEL_SIZE + HEADER_SIZE;
             sharedMemory = NamedSharedMemory.createServer(size);
             sharedBuffer = sharedMemory.getPointer().getByteBuffer(0, size);
+
+            // Write initial header
+            writeHeader(rtWidth, rtHeight, currentCaptureWidth, currentCaptureHeight);
+            resetHeaderStatus();
 
             // Create GPU buffer for texture-to-buffer copy
             createGpuBuffer(rtWidth, rtHeight);
 
             initialized = true;
-            LOGGER.info("Screen capture initialized (RT: {}x{}, capture: {}x{})",
-                rtWidth, rtHeight, currentWidth, currentHeight);
+            LOGGER.info("Screen capture initialized (screen: {}x{}, capture: {}x{}, max buffer: {}x{})",
+                rtWidth, rtHeight, currentCaptureWidth, currentCaptureHeight, MAX_WIDTH, MAX_HEIGHT);
             return true;
 
         } catch (Exception e) {
             LOGGER.error("Failed to initialize screen capture", e);
             return false;
         }
+    }
+
+    /**
+     * Write the header to shared memory.
+     * Only writes fields that change on resize. Does NOT modify status.
+     * The status field is managed separately per-frame by captureFrame().
+     */
+    private void writeHeader(int screenWidth, int screenHeight, int captureWidth, int captureHeight) {
+        sharedBuffer.putInt(OFF_MAGIC, 0x4D435348); // "MCSH"
+        sharedBuffer.putInt(OFF_VERSION, 2);
+        sharedBuffer.putInt(OFF_SCREEN_WIDTH, screenWidth);
+        sharedBuffer.putInt(OFF_SCREEN_HEIGHT, screenHeight);
+        sharedBuffer.putInt(OFF_WIDTH, captureWidth);
+        sharedBuffer.putInt(OFF_HEIGHT, captureHeight);
+        sharedBuffer.putInt(OFF_FORMAT, 1); // RGBA
+        sharedBuffer.putInt(OFF_STRIDE, captureWidth * 4);
+        // Note: do NOT write status here — it's managed per-frame by captureFrame()
+    }
+
+    /**
+     * Reset header status to IDLE.
+     * Called at init and resize time (not during capture).
+     */
+    private void resetHeaderStatus() {
+        sharedBuffer.putInt(OFF_STATUS, STATUS_IDLE);
     }
 
     /**
@@ -184,24 +251,26 @@ public final class ScreenCapture {
             int captureWidth = rtWidth / downscaleFactor;
             int captureHeight = rtHeight / downscaleFactor;
 
-            // Re-init if dimensions changed
-            if (currentWidth != captureWidth || currentHeight != captureHeight) {
-                currentWidth = captureWidth;
-                currentHeight = captureHeight;
+            // Handle resize: update header and recreate GPU buffer if dimensions changed.
+            // The shared memory buffer itself is NEVER closed/re-created — it has a fixed
+            // max-size allocation that handles any window size up to MAX_WIDTH x MAX_HEIGHT.
+            boolean screenResized = rtWidth != currentScreenWidth || rtHeight != currentScreenHeight;
+            boolean captureResized = captureWidth != currentCaptureWidth || captureHeight != currentCaptureHeight;
 
-                if (sharedMemory != null) {
-                    try {
-                        sharedMemory.close();
-                    } catch (Exception ignored) {}
-                }
-                long size = (long) captureWidth * captureHeight * 4L + HEADER_SIZE + 4096;
-                sharedMemory = NamedSharedMemory.createServer(size);
-                sharedBuffer = sharedMemory.getPointer().getByteBuffer(0, size);
+            if (screenResized || captureResized) {
+                currentScreenWidth = rtWidth;
+                currentScreenHeight = rtHeight;
+                currentCaptureWidth = captureWidth;
+                currentCaptureHeight = captureHeight;
 
-                // Recreate GPU buffer for new size
+                // Update the header with new dimensions
+                writeHeader(rtWidth, rtHeight, captureWidth, captureHeight);
+
+                // Recreate GPU buffer for the new screen size
                 createGpuBuffer(rtWidth, rtHeight);
 
-                LOGGER.info("Screen capture resized to {}x{}", captureWidth, captureHeight);
+                LOGGER.info("Screen capture resized: screen={}x{}, capture={}x{}",
+                    rtWidth, rtHeight, captureWidth, captureHeight);
             }
 
             if (sharedBuffer == null) {
@@ -217,15 +286,7 @@ public final class ScreenCapture {
             }
 
             // Mark as writing
-            sharedBuffer.putInt(40, STATUS_WRITING);
-
-            // Write header (will be updated with final values after GPU read)
-            sharedBuffer.putInt(0, 0x4D435348); // "MCSH"
-            sharedBuffer.putInt(4, 1); // version
-            sharedBuffer.putInt(8, captureWidth);
-            sharedBuffer.putInt(12, captureHeight);
-            sharedBuffer.putInt(16, 1); // RGBA format
-            sharedBuffer.putInt(20, captureWidth * 4); // stride
+            sharedBuffer.putInt(OFF_STATUS, STATUS_WRITING);
 
             // Use Minecraft's approach: copyTextureToBuffer with callback
             // This ensures GPU operation completes before reading
@@ -284,16 +345,16 @@ public final class ScreenCapture {
                     }
 
                     // Update header with final values
-                    sharedBuffer.putLong(24, System.nanoTime());
-                    sharedBuffer.putLong(32, ++frameCount);
-                    sharedBuffer.putInt(40, STATUS_READY);
+                    sharedBuffer.putLong(OFF_TIMESTAMP, System.nanoTime());
+                    sharedBuffer.putLong(OFF_FRAME_COUNT, ++frameCount);
+                    sharedBuffer.putInt(OFF_STATUS, STATUS_READY);
 
                     lastCaptureTime = System.nanoTime();
 
                 } catch (Exception e) {
                     LOGGER.error("Error reading GPU buffer: {}", e.getMessage(), e);
                     if (sharedBuffer != null) {
-                        sharedBuffer.putInt(40, STATUS_IDLE);
+                        sharedBuffer.putInt(OFF_STATUS, STATUS_IDLE);
                     }
                 }
             }, 0);
@@ -303,7 +364,7 @@ public final class ScreenCapture {
         } catch (Exception e) {
             LOGGER.error("Frame capture failed: {}", e.getMessage(), e);
             if (sharedBuffer != null) {
-                sharedBuffer.putInt(40, STATUS_IDLE);
+                sharedBuffer.putInt(OFF_STATUS, STATUS_IDLE);
             }
             return false;
         }

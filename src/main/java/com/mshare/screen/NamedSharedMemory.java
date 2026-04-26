@@ -104,7 +104,7 @@ public final class NamedSharedMemory implements AutoCloseable {
             return null;
         }
 
-        nsm.mappedSize = 1920 * 1080 * 4 + 1024;
+        nsm.mappedSize = 3840 * 2160 * 4 + 64; // Fixed max-size buffer (v2 protocol)
         LOGGER.info("Connected to shared memory '{}'", MAPPING_NAME);
         return nsm;
     }
