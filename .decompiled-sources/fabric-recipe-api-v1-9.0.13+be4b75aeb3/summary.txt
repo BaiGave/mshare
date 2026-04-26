@@ -1,2 +1,0 @@
-Summary for C:\Users\Admin\.gradle\caches\modules-2\files-2.1\net.fabricmc.fabric-api\fabric-recipe-api-v1\9.0.13+be4b75aeb3\27b5726fcd7652d168f604d7a767f7dafd5a87d1\fabric-recipe-api-v1-9.0.13+be4b75aeb3.jar
-Decompiled with CFR 0.152

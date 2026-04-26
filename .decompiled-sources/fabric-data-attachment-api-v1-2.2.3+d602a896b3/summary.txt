@@ -1,2 +1,0 @@
-Summary for C:\Users\Admin\.gradle\caches\modules-2\files-2.1\net.fabricmc.fabric-api\fabric-data-attachment-api-v1\2.2.3+d602a896b3\f568029d42d537e177af3b7e196671a9c658b707\fabric-data-attachment-api-v1-2.2.3+d602a896b3.jar
-Decompiled with CFR 0.152

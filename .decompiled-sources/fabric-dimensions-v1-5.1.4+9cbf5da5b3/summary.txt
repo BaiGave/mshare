@@ -1,2 +1,0 @@
-Summary for C:\Users\Admin\.gradle\caches\modules-2\files-2.1\net.fabricmc.fabric-api\fabric-dimensions-v1\5.1.4+9cbf5da5b3\c2df442120b2bcf55175a01987d55f8026ed726\fabric-dimensions-v1-5.1.4+9cbf5da5b3.jar
-Decompiled with CFR 0.152

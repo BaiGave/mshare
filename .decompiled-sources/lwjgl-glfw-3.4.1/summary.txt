@@ -1,2 +1,0 @@
-Summary for C:\Users\Admin\.gradle\caches\modules-2\files-2.1\org.lwjgl\lwjgl-glfw\3.4.1\a782b1ddd175c9107bf300fd92920579ea65e2a4\lwjgl-glfw-3.4.1.jar
-Decompiled with CFR 0.152

@@ -1,2 +1,0 @@
-Summary for C:\Users\Admin\.gradle\caches\modules-2\files-2.1\net.fabricmc.fabric-api\fabric-loot-api-v3\3.0.11+00a1fba6b3\fa93072cef26ef40013f399c25358ba5197c576d\fabric-loot-api-v3-3.0.11+00a1fba6b3.jar
-Decompiled with CFR 0.152

@@ -1,2 +1,0 @@
-Summary for C:\Users\Admin\.gradle\caches\modules-2\files-2.1\net.fabricmc.fabric-api\fabric-networking-api-v1\6.3.0+50a808ceb3\d2f0f40f01c499823061562d365b19d08efdd9bf\fabric-networking-api-v1-6.3.0+50a808ceb3.jar
-Decompiled with CFR 0.152

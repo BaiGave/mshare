@@ -1,9 +1,0 @@
-/*
- * Decompiled with CFR 0.152.
- */
-package net.fabricmc.loader.impl.lib.sat4j.specs;
-
-public interface RandomAccessModel {
-    public boolean model(int var1);
-}
-

@@ -1,2 +1,0 @@
-Summary for C:\Users\Admin\.gradle\caches\modules-2\files-2.1\net.fabricmc.fabric-api\fabric-crash-report-info-v1\1.0.3+9f78a5a8b3\e0e9c4c365c76bf1232fc34b66270a7fcf2cb0f9\fabric-crash-report-info-v1-1.0.3+9f78a5a8b3.jar
-Decompiled with CFR 0.152

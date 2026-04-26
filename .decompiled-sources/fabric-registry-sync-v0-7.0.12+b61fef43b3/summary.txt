@@ -1,2 +1,0 @@
-Summary for C:\Users\Admin\.gradle\caches\modules-2\files-2.1\net.fabricmc.fabric-api\fabric-registry-sync-v0\7.0.12+b61fef43b3\f43517fd86a0b0d9d927ca21d7d80436fcd2ddbc\fabric-registry-sync-v0-7.0.12+b61fef43b3.jar
-Decompiled with CFR 0.152

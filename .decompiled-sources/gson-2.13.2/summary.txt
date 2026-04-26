@@ -1,9 +1,0 @@
-Summary for C:\Users\Admin\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.13.2\48b8230771e573b54ce6e867a9001e75977fe78e\gson-2.13.2.jar
-Decompiled with CFR 0.152
-
-
-com.google.gson.internal.GsonTypes
-----------------------------
-
-resolve(java.lang.reflect.Type java.lang.Class<?> java.lang.reflect.Type java.util.Map<java.lang.reflect.TypeVariable<?>, java.lang.reflect.Type> )
-  Unable to fully structure code

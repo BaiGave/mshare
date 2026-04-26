@@ -1,2 +1,0 @@
-Summary for C:\Users\Admin\.gradle\caches\modules-2\files-2.1\net.fabricmc.fabric-api\fabric-block-getter-api-v2\2.0.6+ec56b601b3\868a196863989122c2cadacbb4d32b40c2b92ecb\fabric-block-getter-api-v2-2.0.6+ec56b601b3.jar
-Decompiled with CFR 0.152

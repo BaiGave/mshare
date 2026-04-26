@@ -1,2 +1,0 @@
-Summary for C:\Users\Admin\.gradle\caches\modules-2\files-2.1\net.fabricmc.fabric-api\fabric-object-builder-api-v1\23.0.13+b61fef43b3\e0d81a5639ee8620947d80988b8d59d50dffc8e9\fabric-object-builder-api-v1-23.0.13+b61fef43b3.jar
-Decompiled with CFR 0.152

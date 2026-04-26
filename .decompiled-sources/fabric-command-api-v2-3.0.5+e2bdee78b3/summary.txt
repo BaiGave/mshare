@@ -1,2 +1,0 @@
-Summary for C:\Users\Admin\.gradle\caches\modules-2\files-2.1\net.fabricmc.fabric-api\fabric-command-api-v2\3.0.5+e2bdee78b3\ed4d1b7a1c34df9d49496b0da3ab9fe29c504607\fabric-command-api-v2-3.0.5+e2bdee78b3.jar
-Decompiled with CFR 0.152

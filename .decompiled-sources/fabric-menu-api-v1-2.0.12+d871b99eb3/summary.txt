@@ -1,2 +1,0 @@
-Summary for C:\Users\Admin\.gradle\caches\modules-2\files-2.1\net.fabricmc.fabric-api\fabric-menu-api-v1\2.0.12+d871b99eb3\2338d3c16181feec7e471e9de7aac933b17356e3\fabric-menu-api-v1-2.0.12+d871b99eb3.jar
-Decompiled with CFR 0.152

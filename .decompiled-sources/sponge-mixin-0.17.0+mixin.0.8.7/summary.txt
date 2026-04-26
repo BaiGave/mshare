@@ -1,9 +1,0 @@
-Summary for C:\Users\Admin\.gradle\caches\modules-2\files-2.1\net.fabricmc\sponge-mixin\0.17.0+mixin.0.8.7\cf31463202f72d03b0ef1e1e38e8ee71b7faaab6\sponge-mixin-0.17.0+mixin.0.8.7.jar
-Decompiled with CFR 0.152
-
-
-org.spongepowered.asm.mixin.refmap.ReferenceMapper
-----------------------------
-
-read(java.lang.String )
-  Loose catch block

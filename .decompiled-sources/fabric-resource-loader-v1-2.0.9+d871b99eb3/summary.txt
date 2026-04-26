@@ -1,2 +1,0 @@
-Summary for C:\Users\Admin\.gradle\caches\modules-2\files-2.1\net.fabricmc.fabric-api\fabric-resource-loader-v1\2.0.9+d871b99eb3\5e6dea19d9ab38b91348ceb7402c9ca0f74dfc48\fabric-resource-loader-v1-2.0.9+d871b99eb3.jar
-Decompiled with CFR 0.152

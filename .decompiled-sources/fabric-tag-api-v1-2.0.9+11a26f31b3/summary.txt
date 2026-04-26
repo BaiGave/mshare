@@ -1,9 +1,0 @@
-Summary for C:\Users\Admin\.gradle\caches\modules-2\files-2.1\net.fabricmc.fabric-api\fabric-tag-api-v1\2.0.9+11a26f31b3\dc26af7e17e0a40299410c3d7575199bbfa7c6cf\fabric-tag-api-v1-2.0.9+11a26f31b3.jar
-Decompiled with CFR 0.152
-
-
-net.fabricmc.fabric.impl.tag.TagAliasLoader
-----------------------------
-
-prepare(net.minecraft.server.packs.resources.PreparableReloadListener$SharedState )
-  Loose catch block
