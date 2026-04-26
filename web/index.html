@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecraft Screen Capture + Camera Viewer</title>
+    <!-- Three.js from CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #0d0d1a 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            color: #e0e0e0;
+        }
+
+        h1 {
+            color: #4ade80;
+            margin-bottom: 20px;
+            text-shadow: 0 0 30px rgba(74, 222, 128, 0.4);
+            font-size: 28px;
+            letter-spacing: 2px;
+        }
+
+        .container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 1500px;
+            width: 100%;
+        }
+
+        .panel {
+            background: linear-gradient(145deg, rgba(30, 30, 50, 0.9), rgba(20, 20, 35, 0.95));
+            border: 1px solid rgba(74, 222, 128, 0.2);
+            border-radius: 16px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        .status-panel {
+            min-width: 260px;
+        }
+
+        .canvas-panel {
+            flex: 1;
+            min-width: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .camera3d-panel {
+            min-width: 500px;
+            min-height: 450px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .status-label {
+            color: #888;
+            font-size: 13px;
+        }
+
+        .status-value {
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .status-value.connected {
+            color: #4ade80;
+        }
+
+        .status-value.disconnected {
+            color: #f87171;
+        }
+
+        .canvas-container {
+            position: relative;
+            border: 2px solid rgba(74, 222, 128, 0.3);
+            border-radius: 12px;
+            overflow: hidden;
+            background: #000;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        #screenCanvas {
+            display: block;
+            width: 100%;
+            height: auto;
+            image-rendering: pixelated;
+        }
+
+        .camera3d-container {
+            position: relative;
+            border: 2px solid rgba(96, 165, 250, 0.3);
+            border-radius: 12px;
+            overflow: hidden;
+            background: linear-gradient(180deg, #0a0a15 0%, #1a1a2e 100%);
+            flex: 1;
+            min-height: 320px;
+            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.5),
+                        0 0 20px rgba(96, 165, 250, 0.1);
+        }
+
+        #camera3d-canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .camera-info {
+            margin-top: 15px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .camera-info-item {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(74, 222, 128, 0.1);
+        }
+
+        .camera-info-label {
+            font-size: 10px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .camera-info-value {
+            font-size: 13px;
+            font-weight: 600;
+            color: #4ade80;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-connect {
+            background: linear-gradient(135deg, #4ade80, #22c55e);
+            color: #0d0d1a;
+        }
+
+        .btn-connect:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(74, 222, 128, 0.4);
+        }
+
+        .btn-disconnect {
+            background: linear-gradient(135deg, #f87171, #ef4444);
+            color: #fff;
+        }
+
+        .btn-disconnect:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(248, 113, 113, 0.4);
+        }
+
+        .btn-download {
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+            color: #fff;
+        }
+
+        .btn-download:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(96, 165, 250, 0.4);
+        }
+
+        .stats {
+            margin-top: 15px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .no-data {
+            color: #555;
+            font-style: italic;
+            font-size: 13px;
+        }
+
+        .fps-counter {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-family: 'Consolas', monospace;
+            border: 1px solid rgba(74, 222, 128, 0.3);
+        }
+
+        .fps-counter span {
+            color: #4ade80;
+        }
+
+        .panel-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .panel-title h2 {
+            font-size: 16px;
+            margin: 0;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .panel-title h2::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #4ade80;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #4ade80;
+        }
+
+        .panel-title h2.camera-title::before {
+            background: #60a5fa;
+            box-shadow: 0 0 10px #60a5fa;
+        }
+
+        .status-badge {
+            font-size: 11px;
+            padding: 4px 10px;
+            border-radius: 12px;
+            background: rgba(248, 113, 113, 0.2);
+            color: #f87171;
+            font-weight: 600;
+        }
+
+        .status-badge.connected {
+            background: rgba(74, 222, 128, 0.2);
+            color: #4ade80;
+        }
+
+        .view-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .view-tab {
+            padding: 8px 14px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            color: #888;
+            transition: all 0.2s;
+        }
+
+        .view-tab:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        .view-tab.active {
+            background: rgba(96, 165, 250, 0.2);
+            border-color: #60a5fa;
+            color: #60a5fa;
+        }
+
+        .view-tab button {
+            padding: 6px 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 11px;
+            color: #888;
+            transition: all 0.2s;
+        }
+
+        .view-tab button:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        .view-tab button.active {
+            background: rgba(96, 165, 250, 0.2);
+            border-color: #60a5fa;
+            color: #60a5fa;
+        }
+
+        .legend {
+            margin-top: 10px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            font-size: 11px;
+            color: #666;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+        }
+
+        .legend-color.x { background: #f87171; }
+        .legend-color.y { background: #4ade80; }
+        .legend-color.z { background: #60a5fa; }
+        .legend-color.player { background: linear-gradient(135deg, #4ade80, #22c55e); }
+        .legend-color.fov { background: rgba(96, 165, 250, 0.5); border: 1px solid #60a5fa; }
+        .legend-color.solid { background: #8B4513; }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .recording {
+            animation: pulse 1s infinite;
+        }
+    </style>
+</head>
+<body>
+    <h1>MINECRAFT CAMERA VIEWER</h1>
+
+    <div class="container">
+        <!-- Screen Capture Panel -->
+        <div class="panel status-panel">
+            <div class="panel-title">
+                <h2>Screen Capture</h2>
+                <span id="screenStatus" class="status-badge">Disconnected</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Status</span>
+                <span id="connectionStatus" class="status-value disconnected">Disconnected</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Memory</span>
+                <span id="memorySize" class="status-value">--</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Image Size</span>
+                <span id="imageSize" class="status-value">--</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Frames</span>
+                <span id="frameCount" class="status-value">0</span>
+            </div>
+
+            <div class="controls">
+                <button id="connectBtn" class="btn-connect" onclick="toggleConnection()">Connect</button>
+                <button id="downloadBtn" class="btn-download" onclick="downloadFrame()" disabled>Save</button>
+            </div>
+
+            <div class="stats">
+                <div>FPS: <span id="fps">0</span> | Last: <span id="lastUpdate">--</span></div>
+            </div>
+        </div>
+
+        <!-- Screen Preview Panel -->
+        <div class="panel canvas-panel">
+            <div class="panel-title">
+                <h2>Screen Preview</h2>
+            </div>
+            <div class="canvas-container">
+                <canvas id="screenCanvas"></canvas>
+                <div class="fps-counter">FPS: <span id="overlayFps">0</span></div>
+            </div>
+            <p id="placeholder" class="no-data" style="margin-top: 20px;">
+                Waiting for screen capture...
+            </p>
+        </div>
+
+        <!-- 3D View Panel (Combined Camera + Mesh) -->
+        <div class="panel camera3d-panel">
+            <div class="panel-title">
+                <h2 class="camera-title">3D View</h2>
+                <span id="cam3d-status" class="status-badge">Disconnected</span>
+            </div>
+
+            <div class="view-tabs">
+                <button class="view-tab active" onclick="set3DViewMode('combined')">Combined</button>
+                <button class="view-tab" onclick="set3DViewMode('mesh')">Mesh Only</button>
+                <button class="view-tab" onclick="set3DViewMode('camera')">Camera Only</button>
+            </div>
+
+            <div class="camera3d-container">
+                <canvas id="camera3d-canvas"></canvas>
+                <div class="fps-counter">FPS: <span id="cam3d-fps">0</span></div>
+            </div>
+
+            <div class="camera-info">
+                <div class="camera-info-item">
+                    <div class="camera-info-label">Position</div>
+                    <div class="camera-info-value" id="cam-pos">--</div>
+                </div>
+                <div class="camera-info-item">
+                    <div class="camera-info-label">Type</div>
+                    <div class="camera-info-value" id="cam-type">--</div>
+                </div>
+                <div class="camera-info-item">
+                    <div class="camera-info-label">Detached</div>
+                    <div class="camera-info-value" id="cam-detached">--</div>
+                </div>
+                <div class="camera-info-item">
+                    <div class="camera-info-label">Pitch</div>
+                    <div class="camera-info-value" id="cam-pitch">--</div>
+                </div>
+                <div class="camera-info-item">
+                    <div class="camera-info-label">Yaw</div>
+                    <div class="camera-info-value" id="cam-yaw">--</div>
+                </div>
+                <div class="camera-info-item">
+                    <div class="camera-info-label">FOV</div>
+                    <div class="camera-info-value" id="cam-fov">--</div>
+                </div>
+            </div>
+
+            <!-- Mesh Stats (shown in combined mode) -->
+            <div id="mesh-stats-panel" class="camera-info" style="margin-top: 10px;">
+                <div class="camera-info-item">
+                    <div class="camera-info-label">Meshes</div>
+                    <div class="camera-info-value" id="mesh-count">0</div>
+                </div>
+                <div class="camera-info-item">
+                    <div class="camera-info-label">Vertices</div>
+                    <div class="camera-info-value" id="mesh-vertices">0</div>
+                </div>
+                <div class="camera-info-item">
+                    <div class="camera-info-label">Triangles</div>
+                    <div class="camera-info-value" id="mesh-triangles">0</div>
+                </div>
+                <div class="camera-info-item">
+                    <div class="camera-info-label">Frame</div>
+                    <div class="camera-info-value" id="mesh-frame">0</div>
+                </div>
+            </div>
+
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-color x"></div>
+                    <span>X Axis</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color y"></div>
+                    <span>Y Axis</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color z"></div>
+                    <span>Z Axis</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color player"></div>
+                    <span>Camera</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color fov"></div>
+                    <span>View Cone</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color solid"></div>
+                    <span>Mesh</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="viewer.js"></script>
+    <script src="camera-viewer.js"></script>
+    <script src="mesh-viewer.js"></script>
+    <script>
+        // Global view mode state
+        let current3DViewMode = 'combined';
+
+        function set3DViewMode(mode) {
+            current3DViewMode = mode;
+
+            // Update tab buttons
+            document.querySelectorAll('.view-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Update 3D viewer mode
+            if (window.camera3DViewer) {
+                window.camera3DViewer.setViewMode(mode);
+            }
+
+            // Show/hide mesh stats panel
+            const meshStatsPanel = document.getElementById('mesh-stats-panel');
+            if (meshStatsPanel) {
+                meshStatsPanel.style.display = (mode === 'mesh' || mode === 'combined') ? 'grid' : 'none';
+            }
+        }
+    </script>
+</body>
+</html>

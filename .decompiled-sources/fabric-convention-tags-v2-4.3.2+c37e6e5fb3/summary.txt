@@ -1,0 +1,2 @@
+Summary for C:\Users\Admin\.gradle\caches\modules-2\files-2.1\net.fabricmc.fabric-api\fabric-convention-tags-v2\4.3.2+c37e6e5fb3\b77ce6c9c99202f32b7e623d6af9b956ab8c0208\fabric-convention-tags-v2-4.3.2+c37e6e5fb3.jar
+Decompiled with CFR 0.152

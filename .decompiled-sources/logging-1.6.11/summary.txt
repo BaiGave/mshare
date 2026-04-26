@@ -1,0 +1,2 @@
+Summary for C:\Users\Admin\.gradle\caches\modules-2\files-2.1\com.mojang\logging\1.6.11\fd147240733010c158249d986323f9ef98977fe\logging-1.6.11.jar
+Decompiled with CFR 0.152

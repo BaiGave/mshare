@@ -1,0 +1,2 @@
+Summary for C:\Users\Admin\.gradle\caches\modules-2\files-2.1\org.ow2.asm\asm-analysis\9.9\bf4fa6e66638851c1cd22c2caea0c3ee5d5f437\asm-analysis-9.9.jar
+Decompiled with CFR 0.152

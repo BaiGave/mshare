@@ -1,0 +1,2 @@
+Summary for C:\Users\Admin\.gradle\caches\modules-2\files-2.1\net.fabricmc.fabric-api\fabric-biome-api-v1\18.0.4+35c80edcb3\857c0a53317ddf1e87d555505d48c00aa031a72c\fabric-biome-api-v1-18.0.4+35c80edcb3.jar
+Decompiled with CFR 0.152

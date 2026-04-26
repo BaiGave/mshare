@@ -1,0 +1,80 @@
+module org.spongepowered.mixin {
+    /* transitive */ requires java.compiler;
+    /* transitive */ requires java.instrument;
+    /* transitive */ requires org.objectweb.asm;
+    /* transitive */ requires org.objectweb.asm.commons;
+    /* transitive */ requires org.objectweb.asm.tree;
+    /* transitive */ requires org.objectweb.asm.tree.analysis;
+    /* transitive */ requires org.objectweb.asm.util;
+    requires java.logging;
+    /* static phase */ requires org.apache.logging.log4j.core;
+    /* transitive */ /* static phase */ requires cpw.mods.modlauncher;
+    /* static phase */ requires cpw.mods.securejarhandler;
+    /* transitive */ /* static phase */ requires org.apache.logging.log4j;
+    /* static phase */ requires jopt.simple;
+    /* static phase */ requires com.google.common;
+    /* static phase */ requires guava;
+    /* static phase */ requires com.google.gson;
+    /* static phase */ requires gson;
+    /* static phase */ requires java.sql;
+    /* static phase */ requires jdk.unsupported;
+
+    exports org.spongepowered.asm.launch;
+    exports org.spongepowered.asm.launch.platform;
+    exports org.spongepowered.asm.launch.platform.container;
+    exports org.spongepowered.asm.lib;
+    exports org.spongepowered.asm.lib.tree;
+    exports org.spongepowered.asm.logging;
+    exports org.spongepowered.asm.mixin;
+    exports org.spongepowered.asm.mixin.connect;
+    exports org.spongepowered.asm.mixin.extensibility;
+    exports org.spongepowered.asm.mixin.gen;
+    exports org.spongepowered.asm.mixin.gen.throwables;
+    exports org.spongepowered.asm.mixin.injection;
+    exports org.spongepowered.asm.mixin.injection.callback;
+    exports org.spongepowered.asm.mixin.injection.code;
+    exports org.spongepowered.asm.mixin.injection.invoke.arg;
+    exports org.spongepowered.asm.mixin.injection.points;
+    exports org.spongepowered.asm.mixin.injection.selectors;
+    exports org.spongepowered.asm.mixin.injection.selectors.dynamic;
+    exports org.spongepowered.asm.mixin.injection.selectors.throwables;
+    exports org.spongepowered.asm.mixin.injection.struct;
+    exports org.spongepowered.asm.mixin.injection.throwables;
+    exports org.spongepowered.asm.mixin.refmap;
+    exports org.spongepowered.asm.mixin.throwables;
+    exports org.spongepowered.asm.mixin.transformer.ext;
+    exports org.spongepowered.asm.mixin.transformer.throwables;
+    exports org.spongepowered.asm.obfuscation;
+    exports org.spongepowered.asm.obfuscation.mapping;
+    exports org.spongepowered.asm.obfuscation.mapping.common;
+    exports org.spongepowered.asm.obfuscation.mapping.mcp;
+    exports org.spongepowered.asm.service;
+    exports org.spongepowered.asm.service.modlauncher;
+    exports org.spongepowered.asm.util;
+    exports org.spongepowered.asm.util.asm;
+    exports org.spongepowered.asm.util.perf;
+    exports org.spongepowered.tools.agent;
+    exports org.spongepowered.tools.obfuscation;
+    exports org.spongepowered.tools.obfuscation.ext;
+    exports org.spongepowered.tools.obfuscation.fg3;
+    exports org.spongepowered.tools.obfuscation.interfaces;
+    exports org.spongepowered.tools.obfuscation.mapping;
+    exports org.spongepowered.tools.obfuscation.mapping.common;
+    exports org.spongepowered.tools.obfuscation.mapping.fg3;
+    exports org.spongepowered.tools.obfuscation.mapping.mcp;
+    exports org.spongepowered.tools.obfuscation.mcp;
+    exports org.spongepowered.tools.obfuscation.mirror;
+    exports org.spongepowered.tools.obfuscation.service;
+
+    opens org.spongepowered.asm.mixin.transformer to com.google.gson, gson;
+
+    provides IMixinServiceBootstrap with MixinServiceModLauncherBootstrap;
+    provides IMixinService with MixinServiceModLauncher;
+    provides IGlobalPropertyService with Blackboard;
+    provides ITransformationService with MixinTransformationService;
+    provides ILaunchPluginService with MixinLaunchPlugin;
+    provides Processor with MixinObfuscationProcessorInjection, MixinObfuscationProcessorTargets;
+    provides IObfuscationService with ObfuscationServiceMCP, ObfuscationServiceFG3;
+
+}
+

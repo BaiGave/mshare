@@ -1,0 +1,46 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package com.google.common.collect;
+
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.collect.ForwardingMap;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.util.concurrent.ConcurrentMap;
+import org.jspecify.annotations.Nullable;
+
+@GwtCompatible
+public abstract class ForwardingConcurrentMap<K, V>
+extends ForwardingMap<K, V>
+implements ConcurrentMap<K, V> {
+    protected ForwardingConcurrentMap() {
+    }
+
+    @Override
+    protected abstract ConcurrentMap<K, V> delegate();
+
+    @Override
+    @CanIgnoreReturnValue
+    public @Nullable V putIfAbsent(K key, V value) {
+        return this.delegate().putIfAbsent(key, value);
+    }
+
+    @Override
+    @CanIgnoreReturnValue
+    public boolean remove(@Nullable Object key, @Nullable Object value) {
+        return this.delegate().remove(key, value);
+    }
+
+    @Override
+    @CanIgnoreReturnValue
+    public @Nullable V replace(K key, V value) {
+        return this.delegate().replace(key, value);
+    }
+
+    @Override
+    @CanIgnoreReturnValue
+    public boolean replace(K key, V oldValue, V newValue) {
+        return this.delegate().replace(key, oldValue, newValue);
+    }
+}
+

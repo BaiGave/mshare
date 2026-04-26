@@ -1,0 +1,2 @@
+Summary for C:\Users\Admin\.gradle\caches\modules-2\files-2.1\net.fabricmc.fabric-api\fabric-data-generation-api-v1\24.0.17+35c80edcb3\5f9a0bcb99728e3a360754336b4239be20aaec04\fabric-data-generation-api-v1-24.0.17+35c80edcb3.jar
+Decompiled with CFR 0.152

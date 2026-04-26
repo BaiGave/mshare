@@ -1,0 +1,2 @@
+Summary for C:\Users\Admin\.gradle\caches\modules-2\files-2.1\net.fabricmc.fabric-api\fabric-gametest-api-v1\4.0.13+00a1fba6b3\3b3b49767388d8006a81ce22aa612cbf75630a0d\fabric-gametest-api-v1-4.0.13+00a1fba6b3.jar
+Decompiled with CFR 0.152

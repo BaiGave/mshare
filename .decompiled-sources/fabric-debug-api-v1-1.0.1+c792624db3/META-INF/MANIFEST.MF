@@ -1,0 +1,26 @@
+Manifest-Version: 1.0
+Fabric-Loom-Client-Only-Entries: net/fabricmc/fabric/mixin/debug/client/
+ package-info.class;net/fabricmc/fabric/mixin/debug/client/DebugRenderer
+ Mixin.class;net/fabricmc/fabric/mixin/debug/client/ClientDebugSubscribe
+ rMixin.class;net/fabricmc/fabric/impl/debug/client/package-info.class;n
+ et/fabricmc/fabric/impl/debug/client/renderer/DebugRendererRegistryImpl
+ $Entry.class;net/fabricmc/fabric/impl/debug/client/renderer/package-inf
+ o.class;net/fabricmc/fabric/impl/debug/client/renderer/DebugRendererReg
+ istryImpl.class;net/fabricmc/fabric/impl/debug/client/ClientDebugSubscr
+ iptionRegistryImpl.class;net/fabricmc/fabric/api/client/debug/v1/packag
+ e-info.class;net/fabricmc/fabric/api/client/debug/v1/renderer/DebugRend
+ ererFactory.class;net/fabricmc/fabric/api/client/debug/v1/renderer/pack
+ age-info.class;net/fabricmc/fabric/api/client/debug/v1/renderer/DebugRe
+ ndererRegistry.class;net/fabricmc/fabric/api/client/debug/v1/ClientDebu
+ gSubscriptionRegistry.class;fabric-debug-api-v1.client.mixins.json
+Fabric-Loom-Split-Environment: true
+Fabric-Mapping-Namespace: official
+Fabric-Gradle-Version: 9.4.0
+Fabric-Loom-Version: 1.15.5
+Fabric-Mixin-Compile-Extensions-Version: 0.6.0
+Fabric-Minecraft-Version: 26.1.1
+Fabric-Tiny-Remapper-Version: 0.12.3
+Fabric-Loader-Version: 0.18.4
+Fabric-Mixin-Version: 0.17.0+mixin.0.8.7
+Fabric-Mixin-Group: net.fabricmc
+

@@ -1,0 +1,2 @@
+Summary for C:\Users\Admin\.gradle\caches\modules-2\files-2.1\net.fabricmc.fabric-api\fabric-transitive-access-wideners-v1\8.0.11+d871b99eb3\7fbd1904e104fd2c275814855a72768868cb4633\fabric-transitive-access-wideners-v1-8.0.11+d871b99eb3.jar
+Decompiled with CFR 0.152

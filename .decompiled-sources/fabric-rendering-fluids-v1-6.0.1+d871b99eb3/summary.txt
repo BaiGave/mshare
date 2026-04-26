@@ -1,0 +1,2 @@
+Summary for C:\Users\Admin\.gradle\caches\modules-2\files-2.1\net.fabricmc.fabric-api\fabric-rendering-fluids-v1\6.0.1+d871b99eb3\f3205050c366d67ab8468eb425b161bda7244aed\fabric-rendering-fluids-v1-6.0.1+d871b99eb3.jar
+Decompiled with CFR 0.152

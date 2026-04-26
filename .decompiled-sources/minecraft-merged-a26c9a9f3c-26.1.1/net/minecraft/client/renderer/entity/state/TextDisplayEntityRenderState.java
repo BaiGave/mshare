@@ -1,0 +1,23 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package net.minecraft.client.renderer.entity.state;
+
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.renderer.entity.state.DisplayEntityRenderState;
+import net.minecraft.world.entity.Display;
+import org.jspecify.annotations.Nullable;
+
+@Environment(value=EnvType.CLIENT)
+public class TextDisplayEntityRenderState
+extends DisplayEntityRenderState {
+    public @Nullable Display.TextDisplay.TextRenderState textRenderState;
+    public @Nullable Display.TextDisplay.CachedInfo cachedInfo;
+
+    @Override
+    public boolean hasSubState() {
+        return this.textRenderState != null;
+    }
+}
+

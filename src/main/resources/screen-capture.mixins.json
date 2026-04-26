@@ -1,0 +1,16 @@
+{
+	"required": true,
+	"package": "com.mshare.screen.mixin",
+	"compatibilityLevel": "JAVA_25",
+	"client": [
+		"RenderSystemMixin",
+		"MinecraftMixin",
+		"CameraMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	},
+	"overwrites": {
+		"requireAnnotations": true
+	}
+}

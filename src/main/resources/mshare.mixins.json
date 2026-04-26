@@ -1,0 +1,17 @@
+{
+	"required": true,
+	"package": "com.mshare.mixin",
+	"compatibilityLevel": "JAVA_25",
+	"client": [
+		"ExampleMixin"
+	],
+	"mixins": [
+		"ExampleMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	},
+	"overwrites": {
+		"requireAnnotations": true
+	}
+}

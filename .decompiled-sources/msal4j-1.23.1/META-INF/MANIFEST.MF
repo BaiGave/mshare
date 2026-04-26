@@ -1,0 +1,35 @@
+Manifest-Version: 1.0
+Bundle-License: "MIT License"
+Bundle-SymbolicName: msal4j
+Archiver-Version: Plexus Archiver
+Built-By: ContainerAdministrator
+Bnd-LastModified: 1757715316179
+Specification-Title: msal4j
+Implementation-Vendor-Id: com.microsoft.azure
+Bundle-DocURL: https://github.com/AzureAD/microsoft-authentication-lib
+ rary-for-java
+Import-Package: com.azure.json,com.sun.net.httpserver,javax.net.ssl,ja
+ vax.xml.namespace,javax.xml.parsers,javax.xml.transform,javax.xml.tra
+ nsform.dom,javax.xml.transform.stream,javax.xml.xpath,org.slf4j;versi
+ on="[1.7,2)",org.w3c.dom
+Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.8))"
+Bundle-Developers: msopentech;name="Microsoft Open Technologies, Inc."
+Export-Package: com.microsoft.aad.msal4j;version="1.23.1";uses:="com.a
+ zure.json,javax.net.ssl,org.slf4j"
+Bundle-Name: msal4j
+Bundle-SCM: url="https://github.com/AzureAD/microsoft-authentication-l
+ ibrary-for-java",tag=HEAD
+Implementation-Title: msal4j
+Bundle-Description: Microsoft Authentication Library for Java gives yo
+ u the ability to obtain tokens from Azure AD v2 (work and school 		ac
+ counts, MSA) and Azure AD B2C, gaining access to Microsoft Cloud API 
+ and any other API secured by Microsoft 		identities
+Automatic-Module-Name: com.microsoft.aad.msal4j
+Implementation-Version: 1.23.1
+Bundle-ManifestVersion: 2
+Tool: Bnd-5.2.0.202010142003
+Bundle-Version: 1.23.1
+Created-By: 1.8.0_462 (Temurin)
+Build-Jdk: 1.8.0_462
+Specification-Version: 1.23.1
+

@@ -1,0 +1,2 @@
+Summary for C:\Users\Admin\.gradle\caches\modules-2\files-2.1\net.fabricmc.fabric-api\fabric-events-interaction-v0\5.1.10+c82f0461b3\1d1d76860513f9a1402db9eb86d0349028245864\fabric-events-interaction-v0-5.1.10+c82f0461b3.jar
+Decompiled with CFR 0.152

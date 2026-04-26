@@ -1,0 +1,2 @@
+Summary for C:\Users\Admin\.gradle\caches\modules-2\files-2.1\net.fabricmc.fabric-api\fabric-screen-api-v1\5.0.1+d871b99eb3\d27916bd315daad4c8c20fc203cc904be2bf4c39\fabric-screen-api-v1-5.0.1+d871b99eb3.jar
+Decompiled with CFR 0.152

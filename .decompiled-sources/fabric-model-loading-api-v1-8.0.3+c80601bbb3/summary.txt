@@ -1,0 +1,2 @@
+Summary for C:\Users\Admin\.gradle\caches\modules-2\files-2.1\net.fabricmc.fabric-api\fabric-model-loading-api-v1\8.0.3+c80601bbb3\4be756bbb24fdfb9004e730817ac568d39f34aef\fabric-model-loading-api-v1-8.0.3+c80601bbb3.jar
+Decompiled with CFR 0.152

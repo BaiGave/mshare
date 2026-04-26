@@ -1,0 +1,9 @@
+Summary for C:\Users\Admin\.gradle\caches\modules-2\files-2.1\io.netty\netty-codec-base\4.2.7.Final\915e381ebabcf115f1c7ff7032d55c48afb50210\netty-codec-base-4.2.7.Final.jar
+Decompiled with CFR 0.152
+
+
+io.netty.handler.codec.MessageToMessageDecoder
+----------------------------
+
+channelRead(io.netty.channel.ChannelHandlerContext java.lang.Object )
+  Loose catch block

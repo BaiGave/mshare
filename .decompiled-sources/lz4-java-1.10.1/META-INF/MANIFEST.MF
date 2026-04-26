@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: org.lz4.java
+Build-Jdk-Spec: 21
+Bundle-ManifestVersion: 2
+Bundle-Name: lz4-java
+Bundle-SymbolicName: lz4-java
+Bundle-Version: 0
+Import-Package: java.io,java.lang,java.lang.reflect,java.nio,java.util
+ ,java.util.zip,sun.misc
+Originally-Created-By: Maven JAR Plugin 3.4.1
+Private-Package: net.jpountz.lz4,net.jpountz.util,net.jpountz.util.dar
+ win.aarch64,net.jpountz.util.darwin.x86_64,net.jpountz.util.linux.aar
+ ch64,net.jpountz.util.linux.amd64,net.jpountz.util.linux.i386,net.jpo
+ untz.util.linux.ppc64le,net.jpountz.util.linux.s390x,net.jpountz.util
+ .win32.amd64,net.jpountz.xxhash
+Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.7))"
+

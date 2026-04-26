@@ -1,0 +1,13 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package net.fabricmc.fabric.api.client.renderer.v1.sprite;
+
+import net.fabricmc.fabric.api.client.renderer.v1.mesh.QuadAtlas;
+import net.fabricmc.fabric.api.client.renderer.v1.sprite.SpriteFinder;
+
+@FunctionalInterface
+public interface SpriteFinderGetter {
+    public SpriteFinder spriteFinder(QuadAtlas var1);
+}
+

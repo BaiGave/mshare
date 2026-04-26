@@ -1,0 +1,448 @@
+Manifest-Version: 1.0
+Implementation-Title: Microsoft Azure Java JSON Library
+Implementation-Version: 1.4.0
+Build-Jdk-Spec: 21
+Created-By: Maven JAR Plugin 3.4.2
+Implementation-Vendor: Microsoft Corporation
+
+Name: com/azure/json/implementation/jackson/core/io/CharTypes.class
+SHA-256-Digest: nb1xB+DdY/kfGhbwogVGpACpf/dNtbmyFf6yWEUy0Jc=
+
+Name: com/azure/json/implementation/jackson/core/json/JsonWriteFeature
+ .class
+SHA-256-Digest: gqjo3U0m8SF5TWCXOylMVMVIqLLo1TJIuoEsM3Cwvic=
+
+Name: com/azure/json/implementation/DefaultJsonProvider.class
+SHA-256-Digest: aOItdZgFLpHWLo24WYiBO1LtRzgMfHWInldZRsxd5iA=
+
+Name: com/azure/json/implementation/jackson/core/StreamWriteFeature.cl
+ ass
+SHA-256-Digest: ZnjJ/3JISQllrEI2oIU5qUlREcK4unMRuiDvODh0FkQ=
+
+Name: com/azure/json/models/JsonObject.class
+SHA-256-Digest: +NeUdmix99FIcknD8gOJxjJM0KLNRP5aze46FKm4zBo=
+
+Name: com/azure/json/implementation/jackson/core/io/IOContext.class
+SHA-256-Digest: O7zEiWblmJHgQr+92Uj5K2RhPp3QTuiJb0CTkFyTQls=
+
+Name: com/azure/json/implementation/jackson/core/JsonFactory$Feature.c
+ lass
+SHA-256-Digest: zFmQ3XzeE737ZIrNYFMaeyPxBcmoecwSId/nbWjc278=
+
+Name: com/azure/json/JsonReader$1.class
+SHA-256-Digest: gZHbLIgb3WT/5DCjWdWlPTjoEMYDhjNQu3Z1vS7DUe0=
+
+Name: META-INF/maven/com.azure/azure-json/pom.properties
+SHA-256-Digest: /2HIch502paj04f+oplWjFTOI2Kg3LEmfD2TSPPKJWI=
+
+Name: com/azure/json/implementation/jackson/core/io/MergedStream.class
+SHA-256-Digest: sJKkrINpJ2Aq0h4ghJZMwwUYTMzMByL9aLXV3GQ8y3c=
+
+Name: com/azure/json/implementation/DefaultJsonReader$1.class
+SHA-256-Digest: 63MUvd17aBSS+tJGnuXCGH7DxM4XJ0wlwM2yMbzS7WI=
+
+Name: com/azure/json/implementation/jackson/core/StreamReadFeature.cla
+ ss
+SHA-256-Digest: y102ivEbt/wUCAmZlHmC1747ARyGyRPmvbmu5J5aIaE=
+
+Name: com/azure/json/implementation/jackson/core/Base64Variant.class
+SHA-256-Digest: QfKA5N49NRz3MhHU/d/e3zzES/lDT1BsPniY49MrS88=
+
+Name: com/azure/json/JsonSerializable.class
+SHA-256-Digest: 0wsJTxJH4UkteN+e7+tKK5ecghwsJPppp1cARBYfUNg=
+
+Name: com/azure/json/implementation/jackson/core/StreamReadConstraints
+ .class
+SHA-256-Digest: 52KVRw7bKKcHvO3oAmHZy85MKjJ30XOWOBjTCBCmYdg=
+
+Name: com/azure/json/models/JsonArray.class
+SHA-256-Digest: fuIhSZCUrhzOon54gNd3C5YTonlOzDygkeHfUfzxMsk=
+
+Name: com/azure/json/implementation/jackson/core/JsonToken.class
+SHA-256-Digest: PpduNwPk9F63LS3C40kipghoVsv/cD3PDieIls+6weY=
+
+Name: com/azure/json/implementation/jackson/core/JsonGenerationExcepti
+ on.class
+SHA-256-Digest: mkhEnBxx9kczVnazaOs+f3Eabt/Btrg/pNLoZbQmBuk=
+
+Name: com/azure/json/implementation/jackson/core/sym/CharsToNameCanoni
+ calizer.class
+SHA-256-Digest: 9B/SB2y7nE67vFOHvxc6uKlCMN6qmOxoyJdnEcYhZfo=
+
+Name: com/azure/json/models/JsonString.class
+SHA-256-Digest: HRP0x4hlcMTMQkHq594cJfX4xukRqxZBDUgP70oQXW4=
+
+Name: com/azure/json/implementation/jackson/core/TokenStreamFactory.cl
+ ass
+SHA-256-Digest: UDOidjklowOW305ib9LR/VTiV47RL7F5UlrtXOYcCFc=
+
+Name: com/azure/json/implementation/jackson/core/io/SerializedString.c
+ lass
+SHA-256-Digest: S5HS1YLWT06Pg58nDLSbhL+gdyiiyj8z6KT0bQ1+Oa8=
+
+Name: com/azure/json/implementation/jackson/core/SerializableString.cl
+ ass
+SHA-256-Digest: ajrR46fP0np0kCmts32D2s4ZJPU++9RizKT1s+B+ljQ=
+
+Name: com/azure/json/implementation/jackson/core/io/UTF32Reader.class
+SHA-256-Digest: Bu53p+hXe5K/3ZMdH9hj4J6cBxyq6Tn1Vn7s6JnSJzM=
+
+Name: com/azure/json/JsonProvider.class
+SHA-256-Digest: y8Movdd1Tu4pylg5+fDaOonoAGAr+h7wo0KFpix+Mko=
+
+Name: com/azure/json/implementation/jackson/core/sym/Name.class
+SHA-256-Digest: uCUjgvkL5YsWE4UUKhQM4JQPCgJn16oa3WarjCV4dMo=
+
+Name: com/azure/json/implementation/jackson/core/json/DupDetector.clas
+ s
+SHA-256-Digest: ObOYtAEI8N9uqsNmKdPWo0t/f8QhqUleGf1b/S+AU9A=
+
+Name: com/azure/json/implementation/jackson/core/io/OutputDecorator.cl
+ ass
+SHA-256-Digest: 7FWIWsHCiIEWZ0ljT0F9hOCMgpMW3rt77QO7PqwsD2U=
+
+Name: com/azure/json/implementation/jackson/core/Versioned.class
+SHA-256-Digest: q5ef+CXUYX62itn+4UcjXpkcCMsmVhiwnnRdHwoRDgQ=
+
+Name: com/azure/json/implementation/jackson/core/util/JacksonFeature.c
+ lass
+SHA-256-Digest: 8WAAZvkswQaR/EmHBqXUpxLZQzHX6cjRsOMFSSgUB8c=
+
+Name: com/azure/json/models/JsonNumber.class
+SHA-256-Digest: G66wxJIIDXOKW8Dmk1fdLH9FjTi+zHoE3ASrBMbpoYg=
+
+Name: com/azure/json/implementation/jackson/core/util/ThreadLocalBuffe
+ rManager$ThreadLocalBufferManagerHolder.class
+SHA-256-Digest: IOsqHP1Y1C1Cm9gPMWf0I+fuPC7kKwYIMUlPNeIGPXA=
+
+Name: com/azure/json/implementation/jackson/core/JsonLocation.class
+SHA-256-Digest: aRFSefQ3YKLH0qDwfziMyAgm/Gt1pgH9J9T0fA5ZbsI=
+
+Name: com/azure/json/implementation/jackson/core/sym/CharsToNameCanoni
+ calizer$Bucket.class
+SHA-256-Digest: Ftlpze2142dQTtlzEuJv0fzNVRxvDd5ZZlOh3fdM63I=
+
+Name: com/azure/json/implementation/jackson/core/TSFBuilder.class
+SHA-256-Digest: gFSQqGiS+G4/oR6n3cJcFi+K1V6XhymifQ08/2xQ0g0=
+
+Name: com/azure/json/implementation/DefaultJsonWriter.class
+SHA-256-Digest: qAhprZwtGgkExlnsmi0wLEiWrAj27VV+Mc4FqrsjS1Y=
+
+Name: com/azure/json/implementation/jackson/core/sym/CharsToNameCanoni
+ calizer$TableInfo.class
+SHA-256-Digest: 2x2Ua4KJhso0BQ7wxu0gKCs87hZSgKtK6MIVjEgciTk=
+
+Name: com/azure/json/implementation/jackson/core/util/JsonParserSequen
+ ce.class
+SHA-256-Digest: 12c9+0fTuYdktoIeL8cMh6AlmD1We/4EFMfugrCN3Lw=
+
+Name: com/azure/json/implementation/jackson/core/io/InputDecorator.cla
+ ss
+SHA-256-Digest: 5281XFxM5bdf6uPQ1pki9cdLvgT7JZ2g49cDgrmGdyY=
+
+Name: com/azure/json/JsonReader.class
+SHA-256-Digest: zZwk8h2HDT+o7ybFbXrDINFYYmEjaMKcsj/VqIXGrCU=
+
+Name: com/azure/json/implementation/jackson/core/FormatSchema.class
+SHA-256-Digest: f/8GlfFRtKEQvUZ2yVTw7X30WQ0gcToEF6y639V1+GI=
+
+Name: com/azure/json/implementation/jackson/core/io/JsonStringEncoder.
+ class
+SHA-256-Digest: gBssso4qDI825L5GmYM8eAW+Y/was7MktYX2uzC47tU=
+
+Name: module-info.class
+SHA-256-Digest: xYXIPy8Yk7m/rpZZ1HBanRq21rublAlO1F4Ydc6zhrs=
+
+Name: com/azure/json/implementation/jackson/core/FormatFeature.class
+SHA-256-Digest: TuE0JzpDc8MaRP0Q5gT5JcMwDiUpwOIwjzqNkt7z/S8=
+
+Name: com/azure/json/implementation/jackson/core/StreamWriteCapability
+ .class
+SHA-256-Digest: pIM3UfMXmfYXsOJQuCBGEPQgGp7gZyslzSqJC6GtgG8=
+
+Name: com/azure/json/implementation/jackson/core/JsonStreamContext.cla
+ ss
+SHA-256-Digest: Gfu61nyhZvwFAGQXjN+WPLe60LN0vAK9z79ih7bYvBg=
+
+Name: com/azure/json/implementation/jackson/core/util/JsonParserDelega
+ te.class
+SHA-256-Digest: AsG2Up7fSIMHaZz8jgn/jtO+Wp3+cJqDKLX0L16DH6I=
+
+Name: com/azure/json/implementation/jackson/core/JacksonException.clas
+ s
+SHA-256-Digest: Xl9+ZD0oAAGP930d+ARJ/RkudxaZal4d3UmQxaMfnFE=
+
+Name: com/azure/json/models/JsonElement.class
+SHA-256-Digest: 9g0c1GXVs7hZgtdMOTv6x9enaboFZhH71IR4boFoHoo=
+
+Name: com/azure/json/implementation/jackson/core/JsonParseException.cl
+ ass
+SHA-256-Digest: MPtbCWK6LtE2qLZGPDcfjoSttCkpNyRcta0jQkKj7GU=
+
+Name: com/azure/json/implementation/jackson/core/io/NumberInput.class
+SHA-256-Digest: Ol2mzayobxumeZzw0Y8LtAVf47gvyJzP0DPC6ljt1tw=
+
+Name: com/azure/json/implementation/jackson/core/Base64Variant$Padding
+ ReadBehaviour.class
+SHA-256-Digest: NGvf7bPtd2TyQ9UcQgI9VShmFeSXvEiOUqAXwwX2tZ0=
+
+Name: com/azure/json/implementation/jackson/core/util/BufferRecyclers.
+ class
+SHA-256-Digest: ngoZF9w8g1zeMq7f1oKOY3tls2HhJ9Yobhpxo77Msps=
+
+Name: com/azure/json/implementation/jackson/core/util/RequestPayload.c
+ lass
+SHA-256-Digest: WF9nT/Jyjad7mSq3PLDzVjy9C13x43qArz3rVv9blI4=
+
+Name: com/azure/json/implementation/jackson/core/JsonGenerator.class
+SHA-256-Digest: Hzx1jJyO1XYZdmS5XGWXWwsuSG5yF5D24XTcQ3GXpJc=
+
+Name: com/azure/json/implementation/jackson/core/io/SegmentedStringWri
+ ter.class
+SHA-256-Digest: IG8E5BzFC1plm3uvPkhfl4falxDy+dQqFdz0SrLoC/Q=
+
+Name: com/azure/json/implementation/jackson/core/json/JsonReadContext.
+ class
+SHA-256-Digest: 9R7xlMkwiEywJzVYTeRIXH8FNA3qp1uUC2UBcEclTtA=
+
+Name: com/azure/json/implementation/jackson/core/TreeNode.class
+SHA-256-Digest: GdVBPCWbtr+VFt/JyrCHGtFLXCWLT7dLTDzElDojFXc=
+
+Name: com/azure/json/WriteValueCallback.class
+SHA-256-Digest: SzRDDWBx3Go8Ctv63/Ba1n2oiRcImwnuRIMYZSAaJQI=
+
+Name: com/azure/json/implementation/jackson/core/sym/ByteQuadsCanonica
+ lizer.class
+SHA-256-Digest: 42/0kNoBBfj9DC3q3e1XFby5OJv5eHhtm5MIkyfBxrI=
+
+Name: com/azure/json/implementation/jackson/core/io/NumberOutput.class
+SHA-256-Digest: 2Kdsd8FUNb7QGJK/7nwm3F+D6kdr7kBvzUtPv3rpqW4=
+
+Name: com/azure/json/implementation/jackson/core/io/CharTypes$AltEscap
+ es.class
+SHA-256-Digest: x4RLsn33EmNJaTBKWXwWcDI85bhPb4KJ7HnClzI0dZA=
+
+Name: com/azure/json/implementation/jackson/core/io/JsonEOFException.c
+ lass
+SHA-256-Digest: S+hRYafhF/BrBssYoCjpKNn5a3At+tire6XOt77Mraw=
+
+Name: com/azure/json/implementation/jackson/core/exc/StreamReadExcepti
+ on.class
+SHA-256-Digest: K/63yytvMy/xVSASKAquClYrSfXN+I8nvzY9+BHDvw4=
+
+Name: com/azure/json/models/JsonElement$1.class
+SHA-256-Digest: Sr4+8V4HOPZI5w8BN64WpgQkfx5XOrKwiK5aEANEVnM=
+
+Name: com/azure/json/implementation/jackson/core/json/ByteSourceJsonBo
+ otstrapper.class
+SHA-256-Digest: RFxJ8ZpUmXq91HEy0t28oucSk2bV/ay0AFZM63IKlI0=
+
+Name: com/azure/json/JsonProviders.class
+SHA-256-Digest: dMq3f4hHydySWrsNofaVSrMBYv8Uj3mCv0SbQSd6PGs=
+
+Name: com/azure/json/implementation/jackson/core/sym/ByteQuadsCanonica
+ lizer$TableInfo.class
+SHA-256-Digest: embp61AyNZ2DORI73iFl/9TObeL8GBG/IGrytb81+48=
+
+Name: com/azure/json/implementation/jackson/core/JsonTokenId.class
+SHA-256-Digest: RkiB6g60oUPY83vrVA/h/acgWY2lYdd7+Rb8GJDhmuU=
+
+Name: com/azure/json/implementation/jackson/core/exc/StreamWriteExcept
+ ion.class
+SHA-256-Digest: 7E3jdUnm9jra0P+LUC9fZpPgVX7zVwE12EXpLfPeU/c=
+
+Name: com/azure/json/JsonOptions.class
+SHA-256-Digest: SKYfrdRZAnXiBjh0CSf2Bi72gTfPtRSO88KXku1OtcY=
+
+Name: com/azure/json/implementation/jackson/core/util/InternCache.clas
+ s
+SHA-256-Digest: buDt4McxoP3h2EnsYqLBeoeG7mrWA3x853Wgz2d3bzQ=
+
+Name: com/azure/json/implementation/jackson/core/TreeCodec.class
+SHA-256-Digest: 3m0klNufPxBqkBxK9el7ZKbTM65cT7DoPzfV6Zcz8as=
+
+Name: com/azure/json/implementation/jackson/core/JsonProcessingExcepti
+ on.class
+SHA-256-Digest: BqMmJ8lqQ8+R2izPC5eNqeaCI26Sxc7QdJfNLEjsUWU=
+
+Name: com/azure/json/implementation/jackson/core/io/CharacterEscapes.c
+ lass
+SHA-256-Digest: oB4xmnTFImBPmOhRiWR3CQUHUUc4R87+o6Gwa5MTfc8=
+
+Name: com/azure/json/implementation/jackson/core/json/PackageVersion.c
+ lass
+SHA-256-Digest: S1oO+qAvH6ZFDrosYAg2bJn5WHLpD62cNkBhgMDA4TI=
+
+Name: com/azure/json/implementation/jackson/core/util/TextBuffer.class
+SHA-256-Digest: 45W8Yr4FFsxUBBMOHUUaQQ+gn2fHEOBHlO9WVsIbo78=
+
+Name: com/azure/json/models/JsonBoolean.class
+SHA-256-Digest: 28SXnGmF9jYEPCBdYc0jZhQGFNGys8WF2QpeiT7zCfc=
+
+Name: com/azure/json/implementation/jackson/core/JsonParser$Feature.cl
+ ass
+SHA-256-Digest: Ax0gD19BVqrNl+CH0dEaIVKgQFBDo1gNpQbs6ApawFE=
+
+Name: com/azure/json/implementation/jackson/core/ObjectCodec.class
+SHA-256-Digest: PSPxHuJZrmc4nzTIVGXEPd2C+lxmFSbZxnAUKUcbK3o=
+
+Name: com/azure/json/implementation/jackson/core/JsonFactory.class
+SHA-256-Digest: IIiOBb8djw+LGjxRlqmsOWJK1x+CMtR/x8wY7qN/C/8=
+
+Name: com/azure/json/implementation/jackson/core/Base64Variants.class
+SHA-256-Digest: nat7zHypjtlrC1OdxmkhzK6Eh5miZngxI8Rkp3QEKow=
+
+Name: com/azure/json/implementation/jackson/core/base/ParserMinimalBas
+ e.class
+SHA-256-Digest: YBBl3hjMsi9BGQ15fYXD+WTHToTjsnHarnk/8kgIWoY=
+
+Name: com/azure/json/JsonWriteContext.class
+SHA-256-Digest: iaDZqpmZIPIrgopmpNFxrNeES3mV5xwXkwRWns3WEZs=
+
+Name: com/azure/json/implementation/jackson/core/util/JsonGeneratorDel
+ egate.class
+SHA-256-Digest: p/R0DzdKI1rzc3mfnTDwktphPO8IINxTxQtbzZYW3IY=
+
+Name: com/azure/json/implementation/StringBuilderWriter.class
+SHA-256-Digest: S39hB4BdsiQNmUxMF3M5I3IzB7DizE/SUKzBrY2uNts=
+
+Name: com/azure/json/ReadValueCallback.class
+SHA-256-Digest: /u2fFdXlJl8/XIhPQ43Z5RWgH+zmAe2Fd/wlO+jxgKs=
+
+Name: com/azure/json/implementation/DefaultJsonReader.class
+SHA-256-Digest: RWbDkO+VZlSnmpkvNiGIWlNu2eL738EjdeGnxZ2xU5Q=
+
+Name: com/azure/json/implementation/jackson/core/json/WriterBasedJsonG
+ enerator.class
+SHA-256-Digest: uVIirSOb07m9Tx65+wkg9DihJMu3SYMP//QzjnMHVP4=
+
+Name: com/azure/json/implementation/jackson/core/JsonFactoryBuilder.cl
+ ass
+SHA-256-Digest: M/qTDvkXjCyPyq4NOruR3buP0ozOeS62FFiRyRCxxfk=
+
+Name: META-INF/maven/com.azure/azure-json/pom.xml
+SHA-256-Digest: i8sJaTkZWuBRD6AMRQP9fTYGtPh031HwAzsfjk16MRc=
+
+Name: com/azure/json/implementation/jackson/core/StreamReadCapability.
+ class
+SHA-256-Digest: eBGomm5ft+MrybxLwtE40uQrA7FhpShtWbwX+UeOYKg=
+
+Name: com/azure/json/JsonToken.class
+SHA-256-Digest: QB7FW+7xssFzkFI0SRaXt0CzupjQsKSrBSmvz+zUqZ0=
+
+Name: com/azure/json/implementation/jackson/core/io/UTF8Writer.class
+SHA-256-Digest: tUQB1+f3aaOZuBm3mvKM7SRRSBaq4VJFu/npHnDjFEU=
+
+Name: com/azure/json/implementation/jackson/core/exc/InputCoercionExce
+ ption.class
+SHA-256-Digest: eScIt75/WcW5aAOOyzsmBPkV8emjZbkxNjlRdGcjOrM=
+
+Name: com/azure/json/implementation/jackson/core/type/WritableTypeId$I
+ nclusion.class
+SHA-256-Digest: MVC3lXThvPv4fZxwidfoxdXb0uDF9HGVAEc4AENsn9c=
+
+Name: com/azure/json/implementation/jackson/core/io/BigDecimalParser.c
+ lass
+SHA-256-Digest: yElltbTq0DkK7znGqoWWofhMYRJCb9u7vg35pRCAMEM=
+
+Name: com/azure/json/models/JsonNull.class
+SHA-256-Digest: jBPaJ5DRZdMrvkGHh4Fr9nQOELU0D4E7Pivrv7Xn1JA=
+
+Name: com/azure/json/implementation/jackson/core/type/ResolvedType.cla
+ ss
+SHA-256-Digest: TPqfwsaIn5qzTJpd8isW7ZHpKsNz9LAF8pKpRmr9v60=
+
+Name: com/azure/json/implementation/jackson/core/util/VersionUtil.clas
+ s
+SHA-256-Digest: 03OPd7Fe/cI4DTXQGNeirEhY3qe/F3EJB2OC/LhjPuc=
+
+Name: com/azure/json/implementation/jackson/core/base/ParserBase.class
+SHA-256-Digest: qth3DcsfXdzUPrMJQhiUjLczJVgm+Z7Doc7gNUu3Gp8=
+
+Name: com/azure/json/implementation/jackson/core/JsonParser.class
+SHA-256-Digest: 4efIj4JrkZRuxSNYFVzYmHgOUsq+WTb7+5PbcV9Lx28=
+
+Name: com/azure/json/JsonWriter.class
+SHA-256-Digest: KQqKb0Gw56YUZSJ9+z1Q2X7w+Kq/xzV2CF+xnink6/s=
+
+Name: com/azure/json/implementation/jackson/core/JsonParser$NumberType
+ .class
+SHA-256-Digest: mfLWaFMClzkqNwcEpUv+sfBVIFdTaWKj3FZkzBN5qA4=
+
+Name: com/azure/json/implementation/jackson/core/json/ReaderBasedJsonP
+ arser.class
+SHA-256-Digest: AaFrGhFaWcgnXFfQUS/RDsyuoMZgKE5NNcxz4ww1Krc=
+
+Name: com/azure/json/implementation/jackson/core/util/JacksonFeatureSe
+ t.class
+SHA-256-Digest: yfOr4fO6l9BgBH2qRWRCYmvwyxkrw51XWuTvpVVMtXg=
+
+Name: com/azure/json/implementation/jackson/core/Version.class
+SHA-256-Digest: hICaXivKDXqyZQJrfWAhk+Gpf2EyNNWFc3e8ukloAsQ=
+
+Name: com/azure/json/implementation/jackson/core/json/JsonReadFeature.
+ class
+SHA-256-Digest: pQfwwF0ty1Loqxz3Jq1nMSqgrXuFbu4HIRP48LaJvGM=
+
+Name: com/azure/json/implementation/jackson/core/type/WritableTypeId.c
+ lass
+SHA-256-Digest: Hoy+YlP0IF2VLTca93mf8Zr34LL/jS4oirdfEw0d0Jw=
+
+Name: com/azure/json/implementation/jackson/core/util/ThreadLocalBuffe
+ rManager.class
+SHA-256-Digest: Pdjzr0T2zlacmSGIk1HUc27HwkopWNHFJq6TGMVF2Uw=
+
+Name: com/azure/json/implementation/jackson/core/json/UTF8StreamJsonPa
+ rser.class
+SHA-256-Digest: YxQMlri+5eqTbv+CjkS/npz4FXb4JsLqbLV0kFz9V0w=
+
+Name: com/azure/json/implementation/jackson/core/util/BufferRecycler.c
+ lass
+SHA-256-Digest: /0/Ax1IbfSP7Oxytwn/JdEIr0NthcCoi3nD2ctXmzxY=
+
+Name: com/azure/json/implementation/jackson/core/StreamReadConstraints
+ $Builder.class
+SHA-256-Digest: IMMebf3UqgzLkkCxD4cZGu8G/IzU1YCmfTY8FWeNg08=
+
+Name: com/azure/json/implementation/jackson/core/io/ContentReference.c
+ lass
+SHA-256-Digest: PngQvmgouzI7+YiWrzDzVTxGJ/V3ng467Pk66GZHuwg=
+
+Name: com/azure/json/implementation/jackson/core/json/JsonParserBase.c
+ lass
+SHA-256-Digest: Qr7LNsLqN4FH6sf6WCPUwfo+2SHXAf5xjvfa/O5PnqQ=
+
+Name: com/azure/json/implementation/jackson/core/JsonEncoding.class
+SHA-256-Digest: wPhZJkxWo7p17hy3Vt0T8NCw+mW2mTicvptbCJapqho=
+
+Name: com/azure/json/implementation/jackson/core/json/JsonWriteContext
+ .class
+SHA-256-Digest: 0mnz2+sEG83B+smR3A3uAy11KI99BLCz9iXRkNmvGAs=
+
+Name: com/azure/json/JsonWriteState.class
+SHA-256-Digest: 3EXvjmXOKGguJ6LuOHM13xaDJN3yRx95sBJXq/UA/LU=
+
+Name: com/azure/json/implementation/jackson/core/json/UTF8JsonGenerato
+ r.class
+SHA-256-Digest: q3g++VTm5mrPcsmjBy0Wuk6agQ2v5hsOjOg69hTbb80=
+
+Name: com/azure/json/implementation/jackson/core/json/JsonGeneratorImp
+ l.class
+SHA-256-Digest: LDoEmzfu3klOcJ33h1cx/LnsvRcd4s/IA4WrNp3loH0=
+
+Name: com/azure/json/implementation/jackson/core/base/GeneratorBase.cl
+ ass
+SHA-256-Digest: HB8Gxmbkg/6TQfIuVyp4PgIkRpiIlNI0/8TlAS7ATJc=
+
+Name: com/azure/json/implementation/jackson/core/JsonGenerator$Feature
+ .class
+SHA-256-Digest: 7MGh5AZqOCmf7xZS4tTO2U4pCr9EtfogD3J07yPwzsE=
+
+Name: com/azure/json/implementation/jackson/core/type/TypeReference.cl
+ ass
+SHA-256-Digest: d87Zp1tX8ZRf88tCEjFwO2RLl6lbTwywH75tyc7DsB8=
+
+Name: com/azure/json/implementation/jackson/core/util/ByteArrayBuilder
+ .class
+SHA-256-Digest: +3x+hyRtzW+7hGW1Q6VE8TOp7p6t6qLg5blrOLC8fXs=
+

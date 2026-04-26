@@ -1,0 +1,20 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package net.minecraft.client.gui.screens;
+
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.gui.components.Renderable;
+
+@Environment(value=EnvType.CLIENT)
+public abstract class Overlay
+implements Renderable {
+    public boolean isPauseScreen() {
+        return true;
+    }
+
+    public void tick() {
+    }
+}
+

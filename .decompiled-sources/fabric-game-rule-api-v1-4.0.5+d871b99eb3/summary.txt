@@ -1,0 +1,2 @@
+Summary for C:\Users\Admin\.gradle\caches\modules-2\files-2.1\net.fabricmc.fabric-api\fabric-game-rule-api-v1\4.0.5+d871b99eb3\c1fb8052a73c74f9452f4a5a6c7fe91f7b9d4a13\fabric-game-rule-api-v1-4.0.5+d871b99eb3.jar
+Decompiled with CFR 0.152

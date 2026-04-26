@@ -1,0 +1,118 @@
+Manifest-Version: 1.0
+Created-By: 25 (Homebrew)
+Build-Jdk-Spec: 25
+Specification-Title: oshi-core
+Specification-Version: 6.9
+Specification-Vendor: oshi
+Implementation-Title: oshi-core
+Implementation-Version: 6.9.0
+Implementation-Vendor: oshi
+Automatic-Module-Name: com.github.oshi
+Build-Time: 2025-09-19 00:45:17
+Copyright: 2010 - 2025
+Git-Revision: 193674c6bff7c3439e01308de548df4b3e99d880
+Os-Arch: aarch64
+Os-Name: Mac OS X
+Os-Version: 15.6.1
+X-Compile-Source-JDK: 8
+X-Compile-Target-JDK: 8
+Bnd-LastModified: 1758242720681
+Bundle-Description: A JNA-based (native) operating system information li
+ brary for Java that aims to provide a         cross-platform implementa
+ tion to retrieve system information, such as version, memory, CPU, disk
+ , battery, etc.
+Bundle-Developers: dblock;email="dblock@dblock.org";name="Daniel Doubrov
+ kine";organization="dblock.org";organizationUrl="http://code.dblock.org
+ /",dbwiddis;email="widdis@gmail.com";name="Daniel Widdis";organization=
+ "sometegroup.com";organizationUrl="https://github.com/dbwiddis/"
+Bundle-DocURL: https://github.com/oshi/oshi/oshi-core
+Bundle-License: MIT;link="https://opensource.org/licenses/MIT"
+Bundle-ManifestVersion: 2
+Bundle-Name: oshi-core
+Bundle-SCM: url="https://github.com/oshi/oshi.git/oshi-core",connection=
+ "scm:git:ssh://git@github.com/oshi/oshi.git/oshi-core",developer-connec
+ tion="scm:git:ssh://git@github.com/oshi/oshi.git/oshi-core",tag="oshi-p
+ arent-6.9.0"
+Bundle-SymbolicName: com.github.oshi.oshi-core
+Bundle-Vendor: oshi
+Bundle-Version: 6.9.0
+Export-Package: oshi;uses:="oshi.hardware,oshi.software.os";version="6.9
+ .0",oshi.annotation;version="6.9.0",oshi.annotation.concurrent;version=
+ "6.9.0",oshi.driver.linux;uses:="oshi.software.os,oshi.util.tuples";ver
+ sion="6.9.0",oshi.driver.linux.proc;uses:="oshi.software.os,oshi.util.t
+ uples";version="6.9.0",oshi.driver.mac;uses:="oshi.software.os";version
+ ="6.9.0",oshi.driver.mac.disk;version="6.9.0",oshi.driver.mac.net;versi
+ on="6.9.0",oshi.driver.unix;uses:="oshi.software.os,oshi.util.tuples";v
+ ersion="6.9.0",oshi.driver.unix.aix;uses:="oshi.hardware,oshi.jna.platf
+ orm.unix,oshi.util.tuples";version="6.9.0",oshi.driver.unix.aix.perfsta
+ t;uses:="com.sun.jna.platform.unix.aix";version="6.9.0",oshi.driver.uni
+ x.freebsd;uses:="oshi.software.os";version="6.9.0",oshi.driver.unix.fre
+ ebsd.disk;uses:="oshi.hardware,oshi.util.tuples";version="6.9.0",oshi.d
+ river.unix.openbsd.disk;uses:="oshi.hardware,oshi.util.tuples";version=
+ "6.9.0",oshi.driver.unix.solaris;uses:="oshi.jna.platform.unix,oshi.sof
+ tware.os,oshi.util.tuples";version="6.9.0",oshi.driver.unix.solaris.dis
+ k;uses:="oshi.hardware,oshi.util.tuples";version="6.9.0",oshi.driver.un
+ ix.solaris.kstat;uses:="oshi.util.tuples";version="6.9.0",oshi.driver.w
+ indows;uses:="com.sun.jna.platform.win32,oshi.hardware,oshi.software.os
+ ,oshi.util.tuples";version="6.9.0",oshi.driver.windows.perfmon;uses:="o
+ shi.util.platform.windows,oshi.util.tuples";version="6.9.0",oshi.driver
+ .windows.registry;uses:="oshi.software.os,oshi.util.platform.windows,os
+ hi.util.tuples";version="6.9.0",oshi.driver.windows.wmi;uses:="com.sun.
+ jna.platform.win32.COM,oshi.util.platform.windows";version="6.9.0",oshi
+ .hardware;version="6.9.0",oshi.hardware.common;uses:="oshi.hardware,osh
+ i.util.tuples";version="6.9.0",oshi.hardware.platform.linux;uses:="oshi
+ .hardware,oshi.hardware.common";version="6.9.0",oshi.hardware.platform.
+ mac;uses:="oshi.driver.mac.net,oshi.hardware,oshi.hardware.common";vers
+ ion="6.9.0",oshi.hardware.platform.unix;uses:="oshi.hardware,oshi.hardw
+ are.common";version="6.9.0",oshi.hardware.platform.unix.aix;uses:="com.
+ sun.jna.platform.unix.aix,oshi.hardware,oshi.hardware.common";version="
+ 6.9.0",oshi.hardware.platform.unix.freebsd;uses:="oshi.hardware,oshi.ha
+ rdware.common";version="6.9.0",oshi.hardware.platform.unix.openbsd;uses
+ :="oshi.hardware,oshi.hardware.common,oshi.util.tuples";version="6.9.0"
+ ,oshi.hardware.platform.unix.solaris;uses:="oshi.hardware,oshi.hardware
+ .common";version="6.9.0",oshi.hardware.platform.windows;uses:="oshi.har
+ dware,oshi.hardware.common";version="6.9.0",oshi.jna;uses:="com.sun.jna
+ ,com.sun.jna.platform.linux,com.sun.jna.platform.mac,com.sun.jna.platfo
+ rm.unix,com.sun.jna.platform.win32,com.sun.jna.ptr";version="6.9.0",osh
+ i.jna.platform.linux;uses:="com.sun.jna,com.sun.jna.platform.linux,oshi
+ .jna.platform.unix";version="6.9.0",oshi.jna.platform.mac;uses:="com.su
+ n.jna,com.sun.jna.platform.mac,com.sun.jna.ptr,oshi.jna.platform.unix";
+ version="6.9.0",oshi.jna.platform.unix;uses:="com.sun.jna,com.sun.jna.p
+ latform.unix,com.sun.jna.ptr";version="6.9.0",oshi.jna.platform.windows
+ ;uses:="com.sun.jna,com.sun.jna.platform.win32,com.sun.jna.ptr";version
+ ="6.9.0",oshi.software.common;uses:="oshi.software.os,oshi.util.tuples"
+ ;version="6.9.0",oshi.software.os;version="6.9.0",oshi.software.os.linu
+ x;uses:="oshi.software.common,oshi.software.os,oshi.util.tuples";versio
+ n="6.9.0",oshi.software.os.mac;uses:="oshi.jna.platform.unix,oshi.softw
+ are.common,oshi.software.os,oshi.util.tuples";version="6.9.0",oshi.soft
+ ware.os.unix.aix;uses:="com.sun.jna.platform.unix.aix,oshi.software.com
+ mon,oshi.software.os,oshi.util.tuples";version="6.9.0",oshi.software.os
+ .unix.freebsd;uses:="oshi.software.common,oshi.software.os,oshi.util.tu
+ ples";version="6.9.0",oshi.software.os.unix.openbsd;uses:="oshi.softwar
+ e.common,oshi.software.os,oshi.util.tuples";version="6.9.0",oshi.softwa
+ re.os.unix.solaris;uses:="oshi.software.common,oshi.software.os,oshi.ut
+ il.tuples";version="6.9.0",oshi.software.os.windows;uses:="oshi.driver.
+ windows.registry,oshi.software.common,oshi.software.os,oshi.util.tuples
+ ";version="6.9.0",oshi.util;uses:="com.sun.jna,com.sun.jna.platform.uni
+ x,oshi.util.tuples";version="6.9.0",oshi.util.platform.linux;version="6
+ .9.0",oshi.util.platform.mac;uses:="com.sun.jna,com.sun.jna.platform.ma
+ c,oshi.jna.platform.mac";version="6.9.0",oshi.util.platform.unix.freebs
+ d;uses:="com.sun.jna";version="6.9.0",oshi.util.platform.unix.openbsd;u
+ ses:="com.sun.jna";version="6.9.0",oshi.util.platform.unix.solaris;uses
+ :="com.sun.jna.platform.unix.solaris";version="6.9.0",oshi.util.platfor
+ m.windows;uses:="com.sun.jna.platform.win32,com.sun.jna.platform.win32.
+ COM,oshi.util.tuples";version="6.9.0",oshi.util.tuples;version="6.9.0"
+Import-Package: io.github.pandalxb.jlibrehardwaremonitor.config;resoluti
+ on:=optional,io.github.pandalxb.jlibrehardwaremonitor.manager;resolutio
+ n:=optional,io.github.pandalxb.jlibrehardwaremonitor.model;resolution:=
+ optional,org.slf4j;version="[1.7,3.0)",com.sun.jna;version="[5.17,6)",c
+ om.sun.jna.platform;version="[5.17,6)",com.sun.jna.platform.linux;versi
+ on="[5.17,6)",com.sun.jna.platform.mac;version="[5.17,6)",com.sun.jna.p
+ latform.unix;version="[5.17,6)",com.sun.jna.platform.unix.aix;version="
+ [5.17,6)",com.sun.jna.platform.unix.solaris;version="[5.17,6)",com.sun.
+ jna.platform.win32;version="[5.17,6)",com.sun.jna.platform.win32.COM;ve
+ rsion="[5.17,6)",com.sun.jna.ptr;version="[5.17,6)",com.sun.jna.win32;v
+ ersion="[5.17,6)"
+Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.8))"
+Tool: Bnd-6.4.0.202211291949
+

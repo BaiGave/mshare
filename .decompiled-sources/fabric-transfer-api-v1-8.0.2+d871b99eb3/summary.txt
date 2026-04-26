@@ -1,0 +1,2 @@
+Summary for C:\Users\Admin\.gradle\caches\modules-2\files-2.1\net.fabricmc.fabric-api\fabric-transfer-api-v1\8.0.2+d871b99eb3\2f9016f302b1b6d2dc5b5ac09d7db9487c8f3ff\fabric-transfer-api-v1-8.0.2+d871b99eb3.jar
+Decompiled with CFR 0.152

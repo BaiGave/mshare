@@ -1,0 +1,2 @@
+Summary for C:\Users\Admin\.gradle\caches\modules-2\files-2.1\net.fabricmc.fabric-api\fabric-renderer-api-v1\13.0.0+c80601bbb3\581edfd08ee5b5fa9f77c877f0b32c8820abc3da\fabric-renderer-api-v1-13.0.0+c80601bbb3.jar
+Decompiled with CFR 0.152

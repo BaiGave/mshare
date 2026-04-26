@@ -1,0 +1,15 @@
+module org.lwjgl {
+    /* transitive */ requires jdk.unsupported;
+
+    exports org.lwjgl;
+    exports org.lwjgl.system;
+    exports org.lwjgl.system.freebsd;
+    exports org.lwjgl.system.jni;
+    exports org.lwjgl.system.libc;
+    exports org.lwjgl.system.libffi;
+    exports org.lwjgl.system.linux;
+    exports org.lwjgl.system.macosx;
+    exports org.lwjgl.system.windows;
+
+}
+

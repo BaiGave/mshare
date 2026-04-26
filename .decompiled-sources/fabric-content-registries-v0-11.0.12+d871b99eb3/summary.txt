@@ -1,0 +1,2 @@
+Summary for C:\Users\Admin\.gradle\caches\modules-2\files-2.1\net.fabricmc.fabric-api\fabric-content-registries-v0\11.0.12+d871b99eb3\2b716930ad16feecea68e826c22e3f7bab1efcec\fabric-content-registries-v0-11.0.12+d871b99eb3.jar
+Decompiled with CFR 0.152

@@ -1,0 +1,9 @@
+Summary for C:\Users\Admin\.gradle\caches\modules-2\files-2.1\it.unimi.dsi\fastutil\8.5.18\a6cff377eecc19c2037bf31568a6d7106b50ba1f\fastutil-8.5.18.jar
+Decompiled with CFR 0.152
+
+
+it.unimi.dsi.fastutil.io.FastBufferedInputStream
+----------------------------
+
+readLine(byte[] int int java.util.EnumSet<it.unimi.dsi.fastutil.io.FastBufferedInputStream$LineTerminator> )
+  Unable to fully structure code

@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Fabric-Loom-Client-Only-Entries: net/fabricmc/fabric/impl/tag/client/Cli
+ entTagsLoader$LoadedTag.class;net/fabricmc/fabric/impl/tag/client/packa
+ ge-info.class;net/fabricmc/fabric/impl/tag/client/ClientTagsLoader$1.cl
+ ass;net/fabricmc/fabric/impl/tag/client/ClientTagsImpl.class;net/fabric
+ mc/fabric/impl/tag/client/ClientTagsLoader.class;net/fabricmc/fabric/ap
+ i/tag/client/v1/package-info.class;net/fabricmc/fabric/api/tag/client/v
+ 1/ClientTags.class
+Fabric-Loom-Split-Environment: true
+Fabric-Mapping-Namespace: official
+Fabric-Gradle-Version: 9.4.0
+Fabric-Loom-Version: 1.15.5
+Fabric-Mixin-Compile-Extensions-Version: 0.6.0
+Fabric-Minecraft-Version: 26.1.1
+Fabric-Tiny-Remapper-Version: 0.12.3
+Fabric-Loader-Version: 0.18.4
+Fabric-Mixin-Version: 0.17.0+mixin.0.8.7
+Fabric-Mixin-Group: net.fabricmc
+

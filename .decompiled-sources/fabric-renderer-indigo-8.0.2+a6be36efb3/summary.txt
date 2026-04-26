@@ -1,0 +1,2 @@
+Summary for C:\Users\Admin\.gradle\caches\modules-2\files-2.1\net.fabricmc.fabric-api\fabric-renderer-indigo\8.0.2+a6be36efb3\15f5e9e6af77979a0ad790ec76cd125a309b3843\fabric-renderer-indigo-8.0.2+a6be36efb3.jar
+Decompiled with CFR 0.152

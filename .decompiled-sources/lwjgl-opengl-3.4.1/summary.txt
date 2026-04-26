@@ -1,0 +1,11 @@
+Summary for C:\Users\Admin\.gradle\caches\modules-2\files-2.1\org.lwjgl\lwjgl-opengl\3.4.1\830412cab823c029cda6b9729f9d2ed36cf79959\lwjgl-opengl-3.4.1.jar
+Decompiled with CFR 0.152
+
+
+org.lwjgl.opengl.GL
+----------------------------
+
+createCapabilities(boolean java.util.function.IntFunction<org.lwjgl.PointerBuffer> )
+  Unable to fully structure code
+createCapabilitiesWGLDummy()
+  Loose catch block

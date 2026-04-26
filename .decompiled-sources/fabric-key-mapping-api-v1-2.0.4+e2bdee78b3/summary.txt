@@ -1,0 +1,2 @@
+Summary for C:\Users\Admin\.gradle\caches\modules-2\files-2.1\net.fabricmc.fabric-api\fabric-key-mapping-api-v1\2.0.4+e2bdee78b3\cc264daf143d3295b7e209572b708b3d1f0b321c\fabric-key-mapping-api-v1-2.0.4+e2bdee78b3.jar
+Decompiled with CFR 0.152

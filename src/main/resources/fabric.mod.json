@@ -1,0 +1,37 @@
+{
+	"schemaVersion": 1,
+	"id": "mshare",
+	"version": "${version}",
+	"name": "Memory Share",
+	"description": "A mod that enables Minecraft to share memory with other programs.",
+	"authors": [
+		"BaiGave"
+	],
+	"contact": {
+		"homepage": "https://space.bilibili.com/3461563635731405"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/mshare/icon.png",
+	"environment": "client",
+	"entrypoints": {
+		"main": [
+			"com.mshare.MshareMod"
+		],
+		"fabric-datagen": [
+			"com.mshare.MshareModDataGenerator"
+		],
+		"client": [
+			"com.mshare.MshareModClient"
+		]
+	},
+	"mixins": [
+		"mshare.mixins.json",
+		"screen-capture.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.18.6",
+		"minecraft": "~26.1.1",
+		"java": ">=25",
+		"fabric-api": "*"
+	}
+}

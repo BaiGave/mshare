@@ -1,0 +1,23 @@
+Summary for C:\Users\Admin\.gradle\caches\modules-2\files-2.1\io.netty\netty-common\4.2.7.Final\11aa30df26af4fca3239ac1917f303a280f301e1\netty-common-4.2.7.Final.jar
+Decompiled with CFR 0.152
+
+
+io.netty.util.concurrent.SingleThreadEventExecutor
+----------------------------
+
+run()
+  Loose catch block
+
+
+io.netty.util.NetUtil
+----------------------------
+
+sysctlGetInt(java.lang.String )
+  Exception : org.benf.cfr.reader.util.ConfusedCFRException: Tried to end blocks [10[FORLOOP]], but top level block is 3[TRYBLOCK]
+
+
+io.netty.util.internal.NativeLibraryLoader
+----------------------------
+
+loadLibrary(java.lang.ClassLoader java.lang.String boolean )
+  Loose catch block

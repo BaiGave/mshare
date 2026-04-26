@@ -1,0 +1,2 @@
+Summary for C:\Users\Admin\.gradle\caches\modules-2\files-2.1\net.fabricmc.fabric-api\fabric-message-api-v1\7.0.5+dae8ce3eb3\bcbadc12c7331090b91cacb62397dc5c06f1e468\fabric-message-api-v1-7.0.5+dae8ce3eb3.jar
+Decompiled with CFR 0.152
