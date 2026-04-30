@@ -1,4 +1,4 @@
-# Minecraft Screen Capture + Camera + Mesh Data - Shared Memory Web Viewer
+# Minecraft Screen Capture + Camera - Shared Memory Web Viewer
 
 ## 概述
 
@@ -6,7 +6,6 @@
 1. Minecraft 画面实时传输到浏览器
 2. 玩家摄像机数据实时共享到浏览器
 3. 网页端 3D 视图可视化摄像机位置和朝向
-4. **Minecraft 世界网格体实时捕获和 3D 渲染**
 
 ## 技术架构
 
@@ -30,7 +29,7 @@
 | 文件 | 作用 |
 |------|------|
 | `NamedSharedMemory.java` | 使用 JNA 调用 Windows API 创建/管理共享内存 |
-| `ScreenCapture.java` | 通过 OpenGL 读取像素，写入共享内存 |
+| `ScreenCapture.java` | 通过 GPU API 读取像素，写入共享内存 |
 | `CameraDataHeader.java` | 摄像机数据结构定义 |
 | `CameraSharedMemory.java` | 摄像机数据共享内存写入 |
 | `CameraDataWriter.java` | 摄像机数据捕获管理器 |
@@ -56,15 +55,16 @@
 | 偏移 | 大小 | 内容 |
 |------|------|------|
 | 0 | 4 | Magic: `0x4D435348` ("MCSH") |
-| 4 | 4 | Version: 1 |
-| 8 | 4 | Width (像素) |
-| 12 | 4 | Height (像素) |
-| 16 | 4 | Format: 1 (RGBA) |
-| 20 | 4 | Stride (每行字节数) |
-| 24 | 8 | Timestamp (纳秒) |
-| 32 | 8 | FrameCount (帧计数) |
-| 40 | 4 | Status: 0=idle, 1=writing, 2=ready |
-| 44 | 20 | Reserved |
+| 4 | 4 | Version: 2 |
+| 8 | 4 | Screen Width (像素) |
+| 12 | 4 | Screen Height (像素) |
+| 16 | 4 | Capture Width (像素) |
+| 20 | 4 | Capture Height (像素) |
+| 24 | 4 | Format: 1 (RGBA) |
+| 28 | 4 | Stride (每行字节数) |
+| 36 | 8 | Timestamp (纳秒) |
+| 44 | 8 | FrameCount (帧计数) |
+| 52 | 4 | Status: 0=idle, 1=writing, 2=ready |
 
 **数据格式**:
 - 像素数据从偏移 64 开始
@@ -108,7 +108,7 @@ Windows Session 隔离机制：
 
 ### 1. 编译 Minecraft Mod
 ```bash
-cd d:\blender-git\template-mod-template-26.1.1
+cd d:\Projects\mshare
 .\gradlew build
 ```
 
@@ -119,7 +119,7 @@ cd d:\blender-git\template-mod-template-26.1.1
 
 ### 3. 启动 Web 服务器
 ```bash
-cd d:\blender-git\template-mod-template-26.1.1\web
+cd d:\Projects\mshare\web
 node server.js
 ```
 
@@ -130,57 +130,6 @@ http://localhost:3000
 
 ### 5. 在 Minecraft 中移动/观察
 进入游戏后，移动角色或旋转视角，3D 视图会实时更新摄像机位置和朝向。
-
-## 3D 网格体视图功能
-
-### 技术架构
-```
-Minecraft Mod
-├── MixinBufferBuilder ────────────► MeshCaptureManager ──► 共享内存
-│                                        (顶点聚合)              (Global\MCMeshData)
-Java Subprocess
-├── MeshDataReader ──────────────────────────────► stdout (JSON)
-Node.js Server
-├── server.js ──────────────────────────────────► WebSocket (port 3003)
-Browser (Three.js)
-├── mesh-viewer.js ──────────────────────────────► 3D 网格体渲染
-```
-
-### 网格捕获机制
-- **MixinBufferBuilder**: 拦截所有 BufferBuilder.addVertex() 调用
-- **MixinRenderType**: 关联网格数据与渲染类型
-- **MeshCaptureManager**: 聚合顶点数据，写入共享内存
-
-### 共享内存格式
-**名称**: `Global\MCMeshData` (100 MB)
-
-**头结构 (128 bytes)**:
-| 偏移 | 大小 | 内容 |
-|------|------|------|
-| 0 | 4 | Magic: `0x4D455348` ("MESH") |
-| 4 | 4 | Version: 1 |
-| 8 | 4 | Flags |
-| 12 | 4 | Mesh Count |
-| 16 | 4 | Vertex Count |
-| 20 | 4 | Triangle Count |
-| 24 | 4 | Vertex Data Offset |
-| 28 | 4 | Index Data Offset |
-| 32 | 8 | Timestamp |
-| 40 | 8 | Frame Number |
-| 48 | 4 | Status |
-
-**顶点数据格式** (每顶点 36 bytes):
-| 偏移 | 大小 | 内容 |
-|------|------|------|
-| 0 | 4 | X (float) |
-| 4 | 4 | Y (float) |
-| 8 | 4 | Z (float) |
-| 12 | 4 | Color (ARGB) |
-| 16 | 4 | U (float) |
-| 20 | 4 | V (float) |
-| 24 | 4 | NX (float) |
-| 28 | 4 | NY (float) |
-| 32 | 4 | NZ (float) |
 
 ## 3D 视图功能
 
@@ -234,12 +183,11 @@ Java 子进程通过 stdout 输出摄像机数据：
 | 3000 | HTTP 服务器 (静态文件) |
 | 3001 | 屏幕帧 WebSocket |
 | 3002 | 摄像机数据 WebSocket |
-| 3003 | **网格数据 WebSocket** |
 
 ## 依赖
 
 ### Java 端
-- JNA 5.17.0 (用于调用 Windows API)
+- JNA 5.15.0 (用于调用 Windows API)
 - Java 25 (必须与 Minecraft 相同版本)
 
 ### Node.js 端
@@ -256,13 +204,13 @@ Java 子进程通过 stdout 输出摄像机数据：
 
 ### JNA Jar 路径 (硬编码)
 ```
-C:\Users\Admin\.gradle\caches\modules-2\files-2.1\net.java.dev.jna\jna\5.17.0\33d12735bef894440780fce64f9758d420c7bae2\jna-5.17.0.jar
-C:\Users\Admin\.gradle\caches\modules-2\files-2.1\net.java.dev.jna\jna-platform\5.17.0\a4934c44d25a9d8c2ddf4203affd20330cb3426f\jna-platform-5.17.0.jar
+C:\Users\Admin\.gradle\caches\modules-2\files-2.1\net.java.dev.jna\jna\5.15.0\...\jna-5.15.0.jar
+C:\Users\Admin\.gradle\caches\modules-2\files-2.1\net.java.dev.jna\jna-platform\5.15.0\...\jna-platform-5.15.0.jar
 ```
 
 ### Java 可执行文件路径
 ```
-C:\Program Files\Java\jdk-25.0.2\bin\java.exe
+C:\Users\Admin\.jdks\jdk-25.0.2\bin\java.exe
 ```
 
 ## 性能

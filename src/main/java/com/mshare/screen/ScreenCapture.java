@@ -316,9 +316,9 @@ public final class ScreenCapture {
                                 byte g = data.get(offset + 1);
                                 byte b = data.get(offset + 2);
                                 byte a = data.get(offset + 3);
-                                
-                                // Write as ARGB to shared memory
-                                argb = ((a & 0xFF) << 24) | ((r & 0xFF) << 16) | ((g & 0xFF) << 8) | (b & 0xFF);
+
+                                // Write as ARGB to shared memory, force alpha=255 for visibility
+                                argb = (0xFF << 24) | ((r & 0xFF) << 16) | ((g & 0xFF) << 8) | (b & 0xFF);
                             } else {
                                 // Downscaling - average NxN pixels
                                 int red = 0, green = 0, blue = 0;
@@ -327,14 +327,15 @@ public final class ScreenCapture {
                                         int readX = x * downscaleFactor + i;
                                         int readY = y * downscaleFactor + j;
                                         int byteOffset = (readX + readY * rtWidth) * pixelStride;
-                                        
+
                                         red += data.get(byteOffset) & 0xFF;
                                         green += data.get(byteOffset + 1) & 0xFF;
                                         blue += data.get(byteOffset + 2) & 0xFF;
                                     }
                                 }
                                 int sampleCount = downscaleFactor * downscaleFactor;
-                                argb = (0xFF << 24) | ((red / sampleCount) << 16) | 
+                                // Force alpha=255 for visibility
+                                argb = (0xFF << 24) | ((red / sampleCount) << 16) |
                                        ((green / sampleCount) << 8) | (blue / sampleCount);
                             }
 

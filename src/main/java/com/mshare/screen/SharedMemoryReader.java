@@ -110,12 +110,16 @@ public class SharedMemoryReader {
                         long currentFrameCount = mappedView.getLong(OFF_FRAME_COUNT);
 
                         if (magic != MAGIC) {
-                            System.out.println("[Reader] Invalid magic: " + String.format("0x%08X", magic));
+                            // Magic invalid - MC might still be initializing
+                            // Break and reconnect instead of exiting
+                            System.out.println("[Reader] Invalid magic: " + String.format("0x%08X", magic) + " - MC may still be initializing, waiting...");
+                            try { Thread.sleep(500); } catch (InterruptedException ie) { break; }
                             break;
                         }
 
                         if (version != VERSION) {
-                            System.out.println("[Reader] Unsupported version: " + version + " (expected " + VERSION + ")");
+                            System.out.println("[Reader] Unsupported version: " + version + " (expected " + VERSION + ") - reconnecting");
+                            try { Thread.sleep(500); } catch (InterruptedException ie) { break; }
                             break;
                         }
 
@@ -150,15 +154,16 @@ public class SharedMemoryReader {
                                 mappedView.read(HEADER_SIZE, pixelData, 0, pixelDataSize);
 
                                 // Convert to BufferedImage
-                                // OpenGL reads pixels bottom-to-top, need to flip Y axis
+                                // Shared memory is in ARGB format (written by MC)
+                                // Y axis: OpenGL origin is bottom-left, we need top-left
                                 BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
                                 int[] pixels = new int[width * height];
                                 for (int y = 0; y < height; y++) {
-                                    // Flip Y axis - OpenGL has origin at bottom-left
+                                    // Flip Y axis for display
                                     int flippedY = height - 1 - y;
                                     for (int x = 0; x < width; x++) {
                                         int srcIdx = flippedY * stride + x * 4;
-                                        // Memory order: BGRA
+                                        // Memory order from shared memory: BGRA (little-endian of putInt ARGB)
                                         int b = pixelData[srcIdx] & 0xFF;
                                         int g = pixelData[srcIdx + 1] & 0xFF;
                                         int r = pixelData[srcIdx + 2] & 0xFF;

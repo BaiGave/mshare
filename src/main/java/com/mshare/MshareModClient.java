@@ -3,7 +3,6 @@ package com.mshare;
 import net.fabricmc.api.ClientModInitializer;
 import com.mshare.screen.ScreenCaptureManager;
 import com.mshare.screen.CameraDataWriter;
-import com.mshare.screen.MeshCaptureManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,10 +26,5 @@ public class MshareModClient implements ClientModInitializer {
         // Initialize camera data capture
         CameraDataWriter.getInstance().init();
         LOGGER.info("Camera data capture system ready");
-
-        // Initialize mesh capture system
-        MeshCaptureManager.getInstance().initialize();
-        MeshCaptureManager.getInstance().setEnabled(true);
-        LOGGER.info("Mesh capture system ready");
     }
 }

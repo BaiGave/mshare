@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Mshare - Binary Viewer</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #1a1a2e;
+            color: #eee;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #00d4ff;
+            margin-bottom: 20px;
+        }
+        .status {
+            padding: 10px 15px;
+            background: #16213e;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-family: monospace;
+        }
+        .status.connected { border-left: 4px solid #00ff88; }
+        .status.disconnected { border-left: 4px solid #ff4444; }
+        canvas {
+            border: 2px solid #00d4ff;
+            border-radius: 8px;
+            background: #000;
+            max-width: 100%;
+        }
+        .info {
+            margin-top: 15px;
+            color: #888;
+            font-size: 14px;
+        }
+        .info span {
+            color: #00d4ff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Mshare Screen Capture (Binary)</h1>
+        <div id="status" class="status disconnected">Disconnected</div>
+        <canvas id="screen" width="854" height="480"></canvas>
+        <div class="info">
+            FPS: <span id="fps">0</span> | 
+            Resolution: <span id="res">--</span> | 
+            Frames: <span id="frames">0</span>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('screen');
+        const ctx = canvas.getContext('2d');
+        const status = document.getElementById('status');
+        const fpsEl = document.getElementById('fps');
+        const resEl = document.getElementById('res');
+        const framesEl = document.getElementById('frames');
+
+        let ws = null;
+        let imageData = null;
+        let frameCount = 0;
+        let lastTime = performance.now();
+        let fps = 0;
+
+        function connect() {
+            const wsHost = window.location.hostname || 'localhost';
+            ws = new WebSocket('ws://' + wsHost + ':3001');
+
+            ws.binaryType = 'arraybuffer';
+
+            ws.onopen = () => {
+                status.textContent = 'Connected';
+                status.className = 'status connected';
+                console.log('[Viewer] Connected to server');
+            };
+
+            ws.onclose = () => {
+                status.textContent = 'Disconnected';
+                status.className = 'status disconnected';
+                console.log('[Viewer] Disconnected, reconnecting in 2s...');
+                setTimeout(connect, 2000);
+            };
+
+            ws.onerror = (e) => {
+                console.error('[Viewer] WebSocket error:', e);
+            };
+
+            ws.onmessage = (event) => {
+                if (typeof event.data === 'string') {
+                    // JSON status message
+                    try {
+                        const msg = JSON.parse(event.data);
+                        if (msg.type === 'status') {
+                            if (msg.totalFrames !== undefined) {
+                                framesEl.textContent = msg.totalFrames;
+                            }
+                        }
+                    } catch (e) {
+                        console.log('[Viewer] Received:', event.data);
+                    }
+                } else {
+                    // Binary frame data
+                    processBinaryFrame(event.data);
+                }
+            };
+        }
+
+        function processBinaryFrame(buffer) {
+            // Binary format:
+            // 4 bytes: width
+            // 4 bytes: height
+            // N bytes: pixels (BGRA)
+            const view = new DataView(buffer);
+            const width = view.getInt32(0, true);
+            const height = view.getInt32(4, true);
+
+            if (width <= 0 || height <= 0 || width > 3840 || height > 2160) {
+                console.error('[Viewer] Invalid frame:', width, 'x', height);
+                return;
+            }
+
+            // Update canvas size if needed
+            if (canvas.width !== width || canvas.height !== height) {
+                canvas.width = width;
+                canvas.height = height;
+                imageData = null;
+            }
+
+            // Create or reuse ImageData
+            if (!imageData || imageData.width !== width || imageData.height !== height) {
+                imageData = ctx.createImageData(width, height);
+            }
+
+            // Copy pixels from buffer to ImageData
+            // Buffer is BGRA, ImageData needs RGBA
+            const pixelCount = width * height;
+            const pixels = new Uint8Array(buffer, 8, pixelCount * 4);
+            
+            const data = imageData.data;
+            for (let i = 0; i < pixelCount; i++) {
+                const srcIdx = i * 4;
+                const dstIdx = i * 4;
+                // BGRA to RGBA
+                data[dstIdx] = pixels[srcIdx + 2];     // R (was B)
+                data[dstIdx + 1] = pixels[srcIdx + 1]; // G
+                data[dstIdx + 2] = pixels[srcIdx];     // B (was R)
+                data[dstIdx + 3] = 255;                // A (force opaque)
+            }
+
+            // Draw to canvas (this flips Y axis automatically)
+            ctx.putImageData(imageData, 0, 0);
+
+            // Update stats
+            frameCount++;
+            framesEl.textContent = frameCount;
+            resEl.textContent = width + 'x' + height;
+
+            const now = performance.now();
+            if (now - lastTime >= 1000) {
+                fps = Math.round(frameCount * 1000 / (now - lastTime));
+                fpsEl.textContent = fps;
+                frameCount = 0;
+                lastTime = now;
+            }
+        }
+
+        // Start connection
+        connect();
+    </script>
+</body>
+</html>

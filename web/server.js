@@ -12,7 +12,6 @@ const { spawn } = require('child_process');
 const HTTP_PORT = 3000;
 const WS_PORT = 3001;
 const CAMERA_WS_PORT = 3002;
-const MESH_WS_PORT = 3003;
 
 // Base directory (mshare project root, relative to server.js)
 const PROJECT_ROOT = path.join(__dirname, '..');
@@ -167,6 +166,14 @@ class SharedMemoryReader {
         console.log('[Java] Starting Java subprocess...');
 
         this.process = spawn(javaExe, [
+            '--add-opens=java.base/java.lang=ALL-UNNAMED',
+            '--add-opens=java.base/java.lang.reflect=ALL-UNNAMED',
+            '--add-opens=java.base/java.io=ALL-UNNAMED',
+            '--add-opens=java.base/java.nio=ALL-UNNAMED',
+            '--add-opens=java.base/sun.nio.ch=ALL-UNNAMED',
+            '--add-opens=java.base/jdk.internal.misc=ALL-UNNAMED',
+            '-Djna.enableNativeAccess=ALL-UNNAMED',
+            '-Djna.nosys=true',
             '-cp', classpath,
             'com.mshare.screen.SharedMemoryReader'
         ], {
@@ -327,6 +334,14 @@ class CameraDataReader {
         console.log('[CameraJS] Camera classes:', CLASSES_DIR);
 
         this.process = spawn(javaExe, [
+            '--add-opens=java.base/java.lang=ALL-UNNAMED',
+            '--add-opens=java.base/java.lang.reflect=ALL-UNNAMED',
+            '--add-opens=java.base/java.io=ALL-UNNAMED',
+            '--add-opens=java.base/java.nio=ALL-UNNAMED',
+            '--add-opens=java.base/sun.nio.ch=ALL-UNNAMED',
+            '--add-opens=java.base/jdk.internal.misc=ALL-UNNAMED',
+            '-Djna.enableNativeAccess=ALL-UNNAMED',
+            '-Djna.nosys=true',
             '-cp', classpath,
             'com.mshare.screen.CameraDataReader'
         ], {
@@ -440,151 +455,9 @@ const cameraWss = new WebSocketServer({ port: CAMERA_WS_PORT });
 const cameraClients = new Set();
 const cameraReader = new CameraDataReader();
 
-// =====================
-// Mesh Data Reader (Java subprocess)
-// =====================
-class MeshDataReader {
-    constructor() {
-        this.process = null;
-        this.running = false;
-        this.totalFrames = 0;
-        this.onMeshData = null;
-        this.restartTimer = null;
-
-        this.parseState = {
-            inMesh: false,
-            data: '',
-            vertexData: ''
-        };
-
-        this.ringBuffer = new LineBuffer();
-    }
-
-    start() {
-        if (this.process) {
-            this.process.kill();
-        }
-
-        const javaExe = findJava();
-
-        const existingJars = JNA_JARS.filter(f => fs.existsSync(f));
-        let classpath = CLASSES_DIR;
-        if (existingJars.length > 0) {
-            classpath += path.delimiter + existingJars.join(path.delimiter);
-        }
-
-        console.log('[MeshJS] Mesh classes:', CLASSES_DIR);
-
-        this.process = spawn(javaExe, [
-            '-cp', classpath,
-            'com.mshare.screen.MeshDataReader'
-        ], {
-            stdio: ['ignore', 'pipe', 'pipe'],
-            windowsHide: true
-        });
-
-        this.running = true;
-
-        this.process.stdout.on('data', (data) => {
-            this.ringBuffer.append(data.toString('utf8'));
-            const lines = this.ringBuffer.getLines();
-            if (lines.length > 0) {
-                this.parseLines(lines);
-            }
-        });
-
-        this.process.stderr.on('data', (data) => {
-            console.log('[MeshJS stderr]', data.toString().trim());
-        });
-
-        this.process.on('close', (code) => {
-            console.log('[MeshJS] Process exited with code:', code);
-            this.running = false;
-            this._scheduleRestart();
-        });
-
-        this.process.on('error', (err) => {
-            console.error('[MeshJS] Process error:', err.message);
-            this.running = false;
-            this._scheduleRestart();
-        });
-    }
-
-    _scheduleRestart() {
-        if (this.restartTimer) {
-            clearTimeout(this.restartTimer);
-            this.restartTimer = null;
-        }
-        this.restartTimer = setTimeout(() => {
-            if (!this.running) {
-                console.log('[MeshJS] Restarting reader...');
-                this.start();
-            }
-        }, 2000);
-    }
-
-    parseLines(lines) {
-        for (const line of lines) {
-            const trimmed = line.trim();
-
-            if (trimmed === '[MeshReader] MESH_START') {
-                this.parseState.inMesh = true;
-                this.parseState.data = '';
-                this.parseState.vertexData = '';
-            } else if (trimmed === '[MeshReader] MESH_END') {
-                if (this.parseState.inMesh && this.parseState.data) {
-                    this.totalFrames++;
-
-                    if (this.onMeshData) {
-                        try {
-                            const meshData = JSON.parse(this.parseState.data);
-                            meshData.vertexData = this.parseState.vertexData;
-                            this.onMeshData(meshData);
-                        } catch (e) {
-                            console.error('[MeshJS] JSON parse error:', e.message);
-                        }
-                    }
-                }
-                this.parseState.inMesh = false;
-                this.parseState.data = '';
-                this.parseState.vertexData = '';
-            } else if (this.parseState.inMesh) {
-                if (trimmed.startsWith('[MeshReader] DATA:')) {
-                    this.parseState.data = trimmed.substring('[MeshReader] DATA:'.length);
-                } else if (trimmed.startsWith('[MeshReader] VERTEX_DATA:')) {
-                    this.parseState.vertexData = trimmed.substring('[MeshReader] VERTEX_DATA:'.length);
-                }
-            } else if (trimmed.startsWith('[MeshReader]') && !trimmed.startsWith('[MeshReader] DATA:')) {
-                const msg = trimmed.substring('[MeshReader]'.length).trim();
-                if (msg && !msg.startsWith('MESH') && !msg.startsWith('DATA') && !msg.startsWith('VERTEX')) {
-                    console.log('[MeshJS]', msg);
-                }
-            }
-        }
-    }
-
-    stop() {
-        if (this.restartTimer) {
-            clearTimeout(this.restartTimer);
-            this.restartTimer = null;
-        }
-        if (this.process) {
-            this.process.kill();
-            this.process = null;
-        }
-        this.running = false;
-    }
-
-    isRunning() {
-        return this.running;
-    }
-}
-
 // Start both readers
 reader.start();
 cameraReader.start();
-const meshReader = new MeshDataReader();
-meshReader.start();
 
 // Forward frames to WebSocket clients
 reader.onFrame = (frame) => {
@@ -633,38 +506,9 @@ setInterval(() => {
     }
 }, 1000);
 
-// Forward mesh data to WebSocket clients
-meshReader.onMeshData = (meshData) => {
-    const message = JSON.stringify({
-        type: 'mesh',
-        version: meshData.version,
-        frame: meshData.frame,
-        meshCount: meshData.meshCount,
-        vertexCount: meshData.vertexCount,
-        triangleCount: meshData.triangleCount,
-        timestamp: meshData.timestamp,
-        vertexStride: meshData.vertexStride,
-        cameraX: meshData.cameraX,
-        cameraY: meshData.cameraY,
-        cameraZ: meshData.cameraZ,
-        meshes: meshData.meshes,
-        vertexData: meshData.vertexData
-    });
-
-    for (const client of meshClients) {
-        if (client.readyState === 1) {
-            client.send(message);
-        }
-    }
-};
-
 // =====================
-// Mesh WebSocket Server
-// =====================
-const meshWss = new WebSocketServer({ port: MESH_WS_PORT });
-const meshClients = new Set();
-
 // Handle browser WebSocket connections
+// =====================
 wss.on('connection', (ws, req) => {
     const clientIp = req.socket.remoteAddress;
     console.log(`[WS] Browser client connected: ${clientIp}`);
@@ -683,7 +527,9 @@ wss.on('connection', (ws, req) => {
     });
 });
 
+// =====================
 // Handle camera WebSocket connections
+// =====================
 cameraWss.on('connection', (ws, req) => {
     const clientIp = req.socket.remoteAddress;
     console.log(`[CameraWS] Browser client connected: ${clientIp}`);
@@ -695,31 +541,18 @@ cameraWss.on('connection', (ws, req) => {
     });
 });
 
-// Handle mesh WebSocket connections
-meshWss.on('connection', (ws, req) => {
-    const clientIp = req.socket.remoteAddress;
-    console.log(`[MeshWS] Browser client connected: ${clientIp}`);
-    meshClients.add(ws);
-
-    ws.on('close', () => {
-        console.log(`[MeshWS] Browser client disconnected: ${clientIp}`);
-        meshClients.delete(ws);
-    });
-});
-
 // =====================
 // Start HTTP Server
 // =====================
 httpServer.listen(HTTP_PORT, () => {
     console.log(`
 ╔════════════════════════════════════════════════════════════════╗
-║           Minecraft Screen Capture + Camera + Mesh Web Viewer  ║
+║           Minecraft Screen Capture + Camera Web Viewer        ║
 ║              (Using Shared Memory via Java)                  ║
 ╠════════════════════════════════════════════════════════════════╣
 ║  HTTP Server:  http://localhost:${HTTP_PORT}                       ║
 ║  WS Server:   ws://localhost:${WS_PORT}                            ║
 ║  Camera WS:   ws://localhost:${CAMERA_WS_PORT}                       ║
-║  Mesh WS:     ws://localhost:${MESH_WS_PORT}                         ║
 ║                                                                ║
 ║  Method: Java subprocess reads shared memory                   ║
 ║                                                                ║
@@ -727,7 +560,6 @@ httpServer.listen(HTTP_PORT, () => {
 ║  2. Open http://localhost:${HTTP_PORT} in your browser            ║
 ║  3. The viewer will automatically display captured frames     ║
 ║  4. Camera data is broadcast on port ${CAMERA_WS_PORT}               ║
-║  5. Mesh data is broadcast on port ${MESH_WS_PORT}                   ║
 ║                                                                ║
 ║  Press Ctrl+C to stop                                        ║
 ╚════════════════════════════════════════════════════════════════╝
@@ -738,10 +570,8 @@ process.on('SIGINT', () => {
     console.log('\nShutting down...');
     reader.stop();
     cameraReader.stop();
-    meshReader.stop();
     wss.close();
     cameraWss.close();
-    meshWss.close();
     httpServer.close();
     process.exit(0);
 });
